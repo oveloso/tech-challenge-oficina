@@ -49,6 +49,8 @@ jobs:
           go tool cover -func=critical.out | awk '/^total:/ { gsub(/%/, "", $3); if ($3+0 < 80) exit 1 }'
       - name: Vulnerabilidades Go
         run: go run golang.org/x/vuln/cmd/govulncheck@v1.9.0 ./...
+      - name: Análise de segurança do código
+        run: go run github.com/securego/gosec/v2/cmd/gosec@v2.30.0 ./...
       - uses: actions/upload-artifact@v4
         if: always()
         with:

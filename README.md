@@ -166,13 +166,14 @@ go build ./cmd/...
 go test -count=1 -coverprofile=critical.out ./internal/domain
 go tool cover -func=critical.out
 go run golang.org/x/vuln/cmd/govulncheck@v1.9.0 ./...
+go run github.com/securego/gosec/v2/cmd/gosec@v2.30.0 ./...
 ```
 
 A medição de 29/10/2026 em Linux/Docker e na CI registrou **85,8% de cobertura global** e **99,0% no domínio**, com PostgreSQL real. O resultado histórico de 28/10/2026 no Windows foi 85,6% global e permanece preservado. Formatação, `go vet`, build e testes passaram. O contrato foi validado com 40 operações, 26 caminhos e 380 referências; Swagger respondeu HTTP 200 e foi conferido no navegador. Os comandos, resultados e limites estão no [registro de verificação](docs/evidencias/verificacao.md).
 
-Evidências: [cobertura](docs/evidencias/cobertura.txt), [fluxo integrado](docs/evidencias/integracao.txt), [entradas inválidas e limites](docs/evidencias/integracao-entradas-hostis.txt), [testes](docs/evidencias/testes.txt) e [vulnerabilidades](docs/evidencias/govulncheck.txt).
+Evidências: [cobertura](docs/evidencias/cobertura.txt), [fluxo integrado](docs/evidencias/integracao.txt), [entradas inválidas e limites](docs/evidencias/integracao-entradas-hostis.txt), [testes](docs/evidencias/testes.txt), [vulnerabilidades em dependências](docs/evidencias/govulncheck.txt) e [análise de segurança do código](docs/evidencias/gosec.txt).
 
-A [CI](.github/workflows/ci.yml) configura PostgreSQL 18 e executa formatação, `go vet`, build, testes com detector de corridas, cobertura e `govulncheck`; o job `compose-smoke` constrói e sobe o ambiente Docker. Os jobs `backend` e `compose-smoke` passaram na [execução 40883124842](https://github.com/oveloso/tech_-challenge_pos_fiap/actions/runs/40883124842). Os resultados de segurança e demais limites são detalhados em [Requisitos e evidências](docs/entrega-fase-1.md).
+A [CI](.github/workflows/ci.yml) configura PostgreSQL 18 e executa formatação, `go vet`, build, testes com detector de corridas, cobertura, `govulncheck` e `gosec`; o job `compose-smoke` constrói e sobe o ambiente Docker. Os jobs `backend` e `compose-smoke` passaram na [execução 40883124842](https://github.com/oveloso/tech_-challenge_pos_fiap/actions/runs/40883124842). Os resultados de segurança e demais limites são detalhados em [Requisitos e evidências](docs/entrega-fase-1.md).
 
 ## Organização e decisões
 
@@ -199,7 +200,8 @@ Cadastros e o agregado de OS usam JSONB, com colunas geradas, chaves estrangeira
 - [Especificação e regras de negócio](docs/especificacao.md)
 - [Arquitetura e diagramas](docs/arquitetura.md)
 - [Decisões de arquitetura](docs/decisions/0001-fundamentos.md)
-- [Modelo de domínio e linguagem ubíqua](docs/ddd/dominio.md)
+- [Linguagem ubíqua](docs/ddd/linguagem-ubiqua.md) e [modelo de domínio](docs/ddd/dominio.md)
+- [Event Storming no Miro](https://miro.com/app/board/uXjVETuWRiI=/)
 - [Event Storming](docs/ddd/event-storming.md)
 - [C4 até o nível 3 e exportações](docs/ddd/c4.md)
 - [Contrato OpenAPI](docs/api/openapi.yaml)

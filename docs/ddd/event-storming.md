@@ -80,4 +80,4 @@ Estoque insuficiente é recusa do comando de início, não um fato de execução
 
 ## Verificação e entrega
 
-Os eventos descritos são nomes de modelagem, não mensagens de integração. O fluxo é implementado por casos de uso síncronos. Testes HTTP com PostgreSQL 18.6 verificam revisão e nova aprovação, decisão idempotente e conflitos, acesso isolado por OS, concorrência de início e rollback de estoque. Os resultados estão em [Requisitos e evidências](../entrega-fase-1.md). Exportação em PDF ou imagens, publicação pública e link compartilhável permanecem pendentes; este Markdown não os substitui.
+Os eventos descritos são nomes de modelagem, não mensagens de integração. O fluxo é implementado por casos de uso síncronos. Testes HTTP com PostgreSQL 18.6 verificam revisão e nova aprovação, decisão idempotente e conflitos, acesso isolado por OS, concorrência de início e rollback de estoque. Os resultados estão em [Requisitos e evidências](../entrega-fase-1.md). O quadro colaborativo do Event Storming está no [Miro](https://miro.com/app/board/uXjVETuWRiI=/), com o brainstorm inicial, os três fluxos, os agregados e a linguagem ubíqua; este Markdown resume o mesmo conteúdo.
