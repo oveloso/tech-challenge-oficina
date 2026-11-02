@@ -68,7 +68,7 @@ Status exigidos, com valores da API:
 2. Inicia o diagnóstico, movendo a OS para `IN_DIAGNOSIS`.
 3. Define os serviços e peças. A substituição da lista de itens só é permitida em `RECEIVED` ou `IN_DIAGNOSIS`. A criação de orçamento exige pelo menos um serviço e preços válidos.
 4. Publica o orçamento. O servidor congela nomes, preços e quantidades, calcula o total, cria uma versão `PENDING` e move a OS para `AWAITING_APPROVAL`.
-5. O cliente aprova ou rejeita a versão vigente. Aprovar muda o orçamento para `APPROVED`; a OS continua em `AWAITING_APPROVAL` até o início do primeiro serviço. A combinação dos dois estados indica orçamento aprovado, aguardando início. Rejeitar muda o orçamento para `REJECTED` e retorna a OS para `IN_DIAGNOSIS`.
+5. O cliente aprova ou rejeita a versão vigente. Aprovar muda o orçamento para `APPROVED`; a OS continua em `AWAITING_APPROVAL` até o início do primeiro serviço. A combinação dos dois estados indica orçamento aprovado, aguardando início. Rejeitar muda o orçamento para `REJECTED`, guarda o motivo opcional informado pelo cliente (`reason`, até 500 caracteres) e retorna a OS para `IN_DIAGNOSIS`.
 6. O funcionário inicia o primeiro serviço. Na mesma transação, verifica aprovação vigente, baixa todas as peças da OS, registra os movimentos, marca o serviço `IN_PROGRESS` e a OS `IN_EXECUTION`. Falta de estoque impede todas essas alterações.
 7. O funcionário inicia e conclui os serviços individualmente. Vários serviços podem estar em andamento. Um serviço só pode ser concluído se estiver `IN_PROGRESS`; concluído recebe `COMPLETED` e horário de término.
 8. Quando todos os serviços estiverem concluídos, o funcionário finaliza a OS, que passa para `COMPLETED`. A entrega é uma ação separada que muda para `DELIVERED`.

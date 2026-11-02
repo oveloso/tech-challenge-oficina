@@ -1,0 +1,56 @@
+$ go run github.com/securego/gosec/v2/cmd/gosec@v2.30.0 -fmt text -no-fail ./...
+# executado em backend/ com Go 1.27.3 (imagem golang:1.27.3), 2026-11-02
+
+[gosec] 2026/11/02 21:12:05 Including rules: default
+[gosec] 2026/11/02 21:12:05 Excluding rules: default
+[gosec] 2026/11/02 21:12:05 Including analyzers: default
+[gosec] 2026/11/02 21:12:05 Excluding analyzers: default
+[gosec] 2026/11/02 21:12:05 Import directory: /src/tests
+[gosec] 2026/11/02 21:12:05 Import directory: /src/internal/workorders
+[gosec] 2026/11/02 21:12:05 Import directory: /src/cmd/api
+[gosec] 2026/11/02 21:12:05 Import directory: /src/internal/auth
+[gosec] 2026/11/02 21:12:05 Import directory: /src/internal/platform
+[gosec] 2026/11/02 21:12:05 Import directory: /src/cmd/seed
+[gosec] 2026/11/02 21:12:05 Import directory: /src/internal/server
+[gosec] 2026/11/02 21:12:05 Import directory: /src/internal/registry
+[gosec] 2026/11/02 21:12:05 Import directory: /src/migrations
+[gosec] 2026/11/02 21:12:05 Import directory: /src/internal/domain
+[gosec] 2026/11/02 21:12:06 Checking package: domain
+[gosec] 2026/11/02 21:12:06 Checking file: /src/internal/domain/errors.go
+[gosec] 2026/11/02 21:12:06 Checking file: /src/internal/domain/order.go
+[gosec] 2026/11/02 21:12:06 Checking file: /src/internal/domain/validation.go
+[gosec] 2026/11/02 21:12:24 Checking package: migrations
+[gosec] 2026/11/02 21:12:24 Checking file: /src/migrations/migrate.go
+[gosec] 2026/11/02 21:12:36 Checking package: registry
+[gosec] 2026/11/02 21:12:36 Checking file: /src/internal/registry/http.go
+[gosec] 2026/11/02 21:12:36 Checking file: /src/internal/registry/repository.go
+[gosec] 2026/11/02 21:12:36 Checking file: /src/internal/registry/service.go
+[gosec] 2026/11/02 21:12:36 Checking file: /src/internal/registry/validation.go
+[gosec] 2026/11/02 21:12:36 Checking package: server
+[gosec] 2026/11/02 21:12:36 Checking file: /src/internal/server/docs.go
+[gosec] 2026/11/02 21:12:36 Checking file: /src/internal/server/server.go
+[gosec] 2026/11/02 21:12:36 Checking package: main
+[gosec] 2026/11/02 21:12:36 Checking file: /src/cmd/seed/main.go
+[gosec] 2026/11/02 21:12:36 Checking package: main
+[gosec] 2026/11/02 21:12:36 Checking file: /src/cmd/api/main.go
+[gosec] 2026/11/02 21:12:36 Checking package: platform
+[gosec] 2026/11/02 21:12:36 Checking file: /src/internal/platform/database.go
+[gosec] 2026/11/02 21:12:36 Checking file: /src/internal/platform/http.go
+[gosec] 2026/11/02 21:12:37 Checking package: auth
+[gosec] 2026/11/02 21:12:37 Checking file: /src/internal/auth/auth.go
+[gosec] 2026/11/02 21:12:37 Checking package: workorders
+[gosec] 2026/11/02 21:12:37 Checking file: /src/internal/workorders/http.go
+[gosec] 2026/11/02 21:12:37 Checking file: /src/internal/workorders/metrics.go
+[gosec] 2026/11/02 21:12:37 Checking file: /src/internal/workorders/repository.go
+[gosec] 2026/11/02 21:12:37 Checking file: /src/internal/workorders/requests.go
+[gosec] 2026/11/02 21:12:37 Checking file: /src/internal/workorders/service.go
+Results:
+
+
+Summary:
+  Gosec  : dev
+  Files  : 20
+  Lines  : 2618
+  Nosec  : 0
+  Issues : 0
+

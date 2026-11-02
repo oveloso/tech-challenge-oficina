@@ -21,7 +21,7 @@ docker compose up --build -d
 docker compose ps
 ```
 
-No Linux/macOS, substitua a primeira linha por `sh scripts/configure.sh`; esse script requer OpenSSL. O Compose cria PostgreSQL, executa migrações e seed e inicia a API. O seed cria o administrador definido em `.env` e, com `DEMO_DATA=true`, cliente, veículo, serviço, peça e uma OS de demonstração. Executá-lo novamente não substitui a senha de um administrador existente.
+No Linux/macOS, substitua a primeira linha por `sh scripts/configure.sh`; esse script requer OpenSSL. O Compose cria PostgreSQL, executa migrações e seed e inicia a API. O seed cria o administrador definido em `.env` e, com `DEMO_DATA=true`, dados de demonstração: 3 clientes e veículos, 3 serviços, peças e insumo, 3 OS já entregues (alimentam as métricas de tempo médio) e 2 OS recebidas. Uma delas pede 2 discos de freio com saldo 1, para demonstrar o 409 de estoque insuficiente. Executá-lo novamente não substitui a senha de um administrador existente.
 
 API e banco são publicados apenas em `127.0.0.1`, nas portas `API_PORT` e `DB_PORT` do `.env` — por padrão, 8080 e 5432. Dentro do contêiner, a API usa `HOST=0.0.0.0`. Para encerrar preservando os dados:
 
@@ -156,6 +156,8 @@ docker compose exec db createdb -U oficina -O oficina oficina_test
 ./scripts/run.ps1 -Action test
 ```
 
+Sem Go instalado, `./scripts/test-docker.ps1` executa a mesma suíte em contêineres descartáveis (Go 1.27.3 e PostgreSQL 18) e mostra a cobertura global e a do domínio.
+
 Sem `TEST_DATABASE_URL`, a suíte integrada informa `SKIP`; executar somente `go test ./...` não comprova integração com banco. Há também uma modalidade contra API externa, configurada por `API_BASE_URL`, `TEST_ADMIN_USERNAME` e `TEST_ADMIN_PASSWORD`, para `go test -count=1 -v ./tests -run '^TestAPIIntegration$'` dentro de `backend`.
 
 Outras verificações, dentro de `backend`:
@@ -166,13 +168,14 @@ go build ./cmd/...
 go test -count=1 -coverprofile=critical.out ./internal/domain
 go tool cover -func=critical.out
 go run golang.org/x/vuln/cmd/govulncheck@v1.9.0 ./...
+go run github.com/securego/gosec/v2/cmd/gosec@v2.30.0 ./...
 ```
 
-A medição de 29/10/2026 em Linux/Docker e na CI registrou **85,8% de cobertura global** e **99,0% no domínio**, com PostgreSQL real. O resultado histórico de 28/10/2026 no Windows foi 85,6% global e permanece preservado. Formatação, `go vet`, build e testes passaram. O contrato foi validado com 40 operações, 26 caminhos e 380 referências; Swagger respondeu HTTP 200 e foi conferido no navegador. Os comandos, resultados e limites estão no [registro de verificação](docs/evidencias/verificacao.md).
+A medição de 02/11/2026 em Linux/Docker, com detector de corridas, registrou **88,4% de cobertura global** e **99,0% no domínio**, com PostgreSQL real. O resultado histórico de 28/10/2026 no Windows foi 85,6% global e permanece preservado. Formatação, `go vet`, build e testes passaram. O contrato foi validado com 40 operações, 26 caminhos e 380 referências; Swagger respondeu HTTP 200 e foi conferido no navegador. Os comandos, resultados e limites estão no [registro de verificação](docs/evidencias/verificacao.md).
 
-Evidências: [cobertura](docs/evidencias/cobertura.txt), [fluxo integrado](docs/evidencias/integracao.txt), [entradas inválidas e limites](docs/evidencias/integracao-entradas-hostis.txt), [testes](docs/evidencias/testes.txt) e [vulnerabilidades](docs/evidencias/govulncheck.txt).
+Evidências: [cobertura](docs/evidencias/cobertura.txt), [fluxo integrado](docs/evidencias/integracao.txt), [entradas inválidas e limites](docs/evidencias/integracao-entradas-hostis.txt), [testes](docs/evidencias/testes.txt), [vulnerabilidades em dependências](docs/evidencias/govulncheck.txt) e [análise de segurança do código](docs/evidencias/gosec.txt).
 
-A [CI](.github/workflows/ci.yml) configura PostgreSQL 18 e executa formatação, `go vet`, build, testes com detector de corridas, cobertura e `govulncheck`; o job `compose-smoke` constrói e sobe o ambiente Docker. Os jobs `backend` e `compose-smoke` passaram na [execução 40883124842](https://github.com/oveloso/tech_-challenge_pos_fiap/actions/runs/40883124842). Os resultados de segurança e demais limites são detalhados em [Requisitos e evidências](docs/entrega-fase-1.md).
+A [CI](.github/workflows/ci.yml) configura PostgreSQL 18 e executa formatação, `go vet`, build, testes com detector de corridas, cobertura, `govulncheck` e `gosec`; o job `compose-smoke` constrói e sobe o ambiente Docker. Os jobs `backend` e `compose-smoke` passaram na [execução 40883124842](https://github.com/oveloso/tech_-challenge_pos_fiap/actions/runs/40883124842). Os resultados de segurança e demais limites são detalhados em [Requisitos e evidências](docs/entrega-fase-1.md).
 
 ## Organização e decisões
 
@@ -199,17 +202,17 @@ Cadastros e o agregado de OS usam JSONB, com colunas geradas, chaves estrangeira
 - [Especificação e regras de negócio](docs/especificacao.md)
 - [Arquitetura e diagramas](docs/arquitetura.md)
 - [Decisões de arquitetura](docs/decisions/0001-fundamentos.md)
-- [Modelo de domínio e linguagem ubíqua](docs/ddd/dominio.md)
+- [Linguagem ubíqua](docs/ddd/linguagem-ubiqua.md) e [modelo de domínio](docs/ddd/dominio.md)
+- [Event Storming no Miro](https://miro.com/app/board/uXjVETuWRiI=/)
 - [Event Storming](docs/ddd/event-storming.md)
 - [C4 até o nível 3 e exportações](docs/ddd/c4.md)
 - [Contrato OpenAPI](docs/api/openapi.yaml)
 - [Requisitos e evidências da entrega](docs/entrega-fase-1.md)
-- [Vídeo final com demonstração no Swagger — 11min06,85s](entrega/video/README.md)
-- [Fonte editável dos diagramas no Excalidraw](docs/ddd/exports/oficina-ddd.excalidraw)
-- Quadro compartilhado do Excalidraw: [abrir no Excalidraw](https://excalidraw.com/#json=y-XhNVpZNgjkyZGcGTIug,NSCIC96zvDJ97e1Kz-Tjig)
+- [Vídeo da apresentação](entrega/video/README.md)
+- [Diagramas C4 em PDF](docs/ddd/diagramas.pdf)
 
-O modelo DDD é uma construção conceitual do projeto. A entrega identifica **Grupo 1 — Lucas Velôso — RM 377934**; Discord: **Não utiliza Discord**. O desenvolvimento teve apoio de IA da OpenAI/Codex (GPT-6), com responsabilidade acadêmica do integrante, e o vídeo usa narração sintética em português.
+O modelo DDD é uma construção conceitual do projeto. A entrega identifica **Grupo 1 — Lucas Velôso — RM 377934**; Discord: **lucasveloso**. O desenvolvimento teve apoio de IA da OpenAI/Codex (GPT-6) e da Anthropic (Claude), com responsabilidade acadêmica do integrante.
 
 O [repositório é público](https://github.com/oveloso/tech_-challenge_pos_fiap). A `main` está protegida: mudanças por PR, checks `backend` e `compose-smoke` obrigatórios, regras aplicadas também a administradores e bloqueio de force push e exclusão. Como o grupo possui um integrante, não há aprovação adicional obrigatória. O histórico da implementação e seus checks estão no [PR #1](https://github.com/oveloso/tech_-challenge_pos_fiap/pull/1).
 
-A [release fase-1-v1](https://github.com/oveloso/tech_-challenge_pos_fiap/releases/tag/fase-1-v1) é o pacote de entrega: [PDF com identificação e links](https://github.com/oveloso/tech_-challenge_pos_fiap/releases/download/fase-1-v1/entrega-fase-1-grupo-1.pdf), [vídeo MP4](https://github.com/oveloso/tech_-challenge_pos_fiap/releases/download/fase-1-v1/tech-challenge-fase-1-grupo-1.mp4) e [legendas SRT](https://github.com/oveloso/tech_-challenge_pos_fiap/releases/download/fase-1-v1/tech-challenge-fase-1-grupo-1.srt). A tag identifica a versão do código; o PDF registra o commit completo. O escopo técnico é uma API executada localmente por HTTP em loopback, demonstrada pelo Swagger; não inclui implantação pública. HTTPS seria necessário para uma futura exposição em rede.
+O PDF de entrega reúne identificação, links e o commit completo da versão avaliada; o link público do YouTube será adicionado após a gravação. O escopo técnico é uma API executada localmente por HTTP em loopback, demonstrada pelo Swagger; não inclui implantação pública. HTTPS seria necessário para uma futura exposição em rede.

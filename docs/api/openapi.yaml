@@ -1094,7 +1094,7 @@ paths:
       tags:
       - Área do cliente
       description: Somente o orçamento vigente e PENDING aceita a primeira decisão. APPROVED mantém a OS AWAITING_APPROVAL;
-        REJECTED devolve a OS a IN_DIAGNOSIS. Repetir a mesma decisão é idempotente apenas enquanto esse orçamento
+        REJECTED devolve a OS a IN_DIAGNOSIS e aceita um motivo opcional (reason), guardado no orçamento. Repetir a mesma decisão é idempotente apenas enquanto esse orçamento
         continuar vigente e preserva o estado atual sem nova versão/evento, mesmo após início da execução. Decisão
         diferente ou orçamento SUPERSEDED retorna 409. Orçamento de outra OS ou inexistente retorna 404. A primeira
         decisão incrementa a versão administrativa da OS. Não reserva estoque; disponibilidade é verificada no primeiro
@@ -1912,6 +1912,11 @@ components:
           - APPROVED
           - REJECTED
           - null
+        rejectionReason:
+          type: string
+          nullable: true
+          maxLength: 500
+          description: Motivo informado pelo cliente na rejeição.
       required:
       - id
       - version
@@ -1922,6 +1927,7 @@ components:
       - publishedAt
       - decidedAt
       - decision
+      - rejectionReason
       description: Snapshot imutável de nomes, valores e quantidades. Status e decisão evoluem pelas ações permitidas;
         o histórico é preservado.
     OrderEvent:
@@ -2094,6 +2100,11 @@ components:
           enum:
           - APPROVED
           - REJECTED
+        reason:
+          type: string
+          nullable: true
+          maxLength: 500
+          description: Motivo da rejeição, opcional. Só é aceito com REJECTED; espaços nas pontas são removidos.
       required:
       - quoteId
       - decision
@@ -2102,7 +2113,8 @@ components:
       additionalProperties: false
       example:
         quoteId: 8f4493a5-0f90-47f1-a6dd-16293a17d918
-        decision: APPROVED
+        decision: REJECTED
+        reason: Achou o valor alto.
     ServiceExecutionMetric:
       type: object
       properties:
@@ -2598,6 +2610,11 @@ components:
           - APPROVED
           - REJECTED
           - null
+        rejectionReason:
+          type: string
+          nullable: true
+          maxLength: 500
+          description: Motivo informado pelo cliente na rejeição.
       required:
       - id
       - version
@@ -2608,6 +2625,7 @@ components:
       - publishedAt
       - decidedAt
       - decision
+      - rejectionReason
       description: Snapshot imutável de nomes, valores e quantidades. Status e decisão evoluem pelas ações permitidas;
         o histórico é preservado.
     CustomerServiceOrder:

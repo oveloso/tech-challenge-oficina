@@ -257,7 +257,7 @@ func (s *Service) Execute(ctx context.Context, id string, version int64, action,
 	}
 	return result, nil
 }
-func (s *Service) Decide(ctx context.Context, hash []byte, quoteID, decision string) (*domain.Order, error) {
+func (s *Service) Decide(ctx context.Context, hash []byte, quoteID, decision, reason string) (*domain.Order, error) {
 	tx, e := s.DB.Begin(ctx)
 	if e != nil {
 		return nil, e
@@ -267,7 +267,7 @@ func (s *Service) Decide(ctx context.Context, hash []byte, quoteID, decision str
 	if e != nil {
 		return nil, e
 	}
-	changed, e := o.Decide(quoteID, decision, time.Now().UTC())
+	changed, e := o.Decide(quoteID, decision, reason, time.Now().UTC())
 	if e != nil {
 		return nil, e
 	}

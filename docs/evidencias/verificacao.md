@@ -44,19 +44,17 @@ A dificuldade inicial de inicialização do Docker Desktop foi superada. A [evid
 | Build, seed, saúde e Swagger/OpenAPI | Aprovados |
 | [Fluxo HTTP em Docker](docker-fluxo.json) | 32 requisições e 47 verificações aprovadas |
 | [Persistência após recriação dos contêineres](docker-persistencia.json) | 8 verificações aprovadas; volume preservado |
-| [Testes Go no contêiner](docker-testes.txt) | Unitários e integração aprovados; global 85,8%, domínio 99,0% |
+| [Testes Go no contêiner](docker-testes.txt) | Unitários e integração aprovados; global 88,4%, domínio 99,0% |
 | [CI 40883124842](https://github.com/oveloso/tech_-challenge_pos_fiap/actions/runs/40883124842) | Jobs `backend` e `compose-smoke` aprovados |
 
-O job `backend` executou testes com `-race` em Linux e cobertura global de 85,8%; o domínio permaneceu em 99,0%. O detector de corridas não foi executado no Windows nem no contêiner local com CGO desabilitado. A medição Windows de 85,6% acima é mantida como registro histórico de outra execução. Cada execução da CI identifica o commit analisado; os checks de cada revisão ficam vinculados ao PR.
+O job `backend` executou testes com `-race` em Linux e cobertura global de 88,4% (medição de 02/11/2026); o domínio permaneceu em 99,0%. O detector de corridas não foi executado no Windows nem no contêiner local com CGO desabilitado. A medição Windows de 85,6% acima é mantida como registro histórico de outra execução. Cada execução da CI identifica o commit analisado; os checks de cada revisão ficam vinculados ao PR.
 
 ## Documentação e vídeo
 
 O Swagger é servido pela própria API em `/docs` e carrega os assets da versão 5.33.1 pela CDN. A especificação em `/openapi.yaml` e as operações da API são locais. A evidência de execução no Swagger está em [swagger.png](swagger.png).
 
-As exportações locais cobrem [Event Storming](../ddd/exports/event-storming.pdf), [C4 níveis 1, 2 e 3](../ddd/exports/c4.pdf) e a [linguagem ubíqua](../ddd/dominio.md), conforme orientação do professor. O nível 3 detalha um cenário: início do primeiro serviço com baixa transacional de estoque. As fontes e imagens estão em [C4 da oficina](../ddd/c4.md).
+As exportações locais cobrem [Event Storming no Miro](https://miro.com/app/board/uXjVETuWRiI=/), [C4 níveis 1, 2 e 3](../ddd/diagramas.pdf) e a [linguagem ubíqua](../ddd/linguagem-ubiqua.md), conforme orientação do professor. O nível 3 detalha um cenário: início do primeiro serviço com baixa transacional de estoque. As fontes e imagens estão em [C4 da oficina](../ddd/c4.md).
 
-A identificação é **Grupo 1 — Lucas Velôso — RM 377934**. Discord: **Não utiliza Discord**. O [vídeo final](../../entrega/video/README.md) tem **11min06,85s**, 27 capítulos, 201 entradas de legenda e narração sintética em português. As capturas mostram a operação do Swagger, criando a OS nº 5 com serviço, peças e insumo até a entrega; orçamento de R$ 338, peças 8→6 e insumo 5→4 foram confirmados. A edição final atualiza a validação Docker, a cobertura Linux/CI e os créditos de apoio de IA da OpenAI/Codex (GPT-6). Duração, codecs, capítulos e decodificação integral foram verificados; o [registro final](../../entrega/video/verificacao-final.json) inclui os hashes do MP4 e do SRT. As versões anteriores foram preservadas fora do histórico Git.
+A identificação é **Grupo 1 — Lucas Velôso — RM 377934**. Discord: **lucasveloso**. O [vídeo](../../entrega/video/README.md) é gravado com a narração do integrante; o link público do YouTube será adicionado após a gravação.
 
-A [fonte editável dos diagramas](../ddd/exports/oficina-ddd.excalidraw) acompanha os PDFs e PNGs. Quadro compartilhado: [abrir no Excalidraw](https://excalidraw.com/#json=y-XhNVpZNgjkyZGcGTIug,NSCIC96zvDJ97e1Kz-Tjig).
-
-O repositório público e a proteção da `main` estão configurados: PR obrigatório, checks `backend`/`compose-smoke`, aplicação a administradores, sem force push nem exclusão. Por se tratar de grupo individual, não há aprovação adicional obrigatória. O [PR #1](https://github.com/oveloso/tech_-challenge_pos_fiap/pull/1) registra a implementação e suas verificações. A [release fase-1-v1](https://github.com/oveloso/tech_-challenge_pos_fiap/releases/tag/fase-1-v1) identifica o código e reúne vídeo, legendas e PDF de entrega com o commit completo. O escopo verificado é a API local por HTTP, sem implantação pública.
+O repositório público e a proteção da `main` estão configurados: PR obrigatório, checks `backend`/`compose-smoke`, aplicação a administradores, sem force push nem exclusão. Por se tratar de grupo individual, não há aprovação adicional obrigatória. O [PR #1](https://github.com/oveloso/tech_-challenge_pos_fiap/pull/1) registra a implementação e suas verificações. O PDF de entrega registra a branch e o commit completo da versão avaliada. O escopo verificado é a API local por HTTP, sem implantação pública.
