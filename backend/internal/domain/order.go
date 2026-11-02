@@ -1,6 +1,10 @@
 package domain
 
-import "time"
+import (
+	"strings"
+	"time"
+	"unicode/utf8"
+)
 
 const (
 	Received  = "RECEIVED"
@@ -47,15 +51,16 @@ type QuotePart struct {
 	Subtotal        int64  `json:"subtotalCents"`
 }
 type Quote struct {
-	ID          string         `json:"id"`
-	Version     int64          `json:"version"`
-	Status      string         `json:"status"`
-	Services    []QuoteService `json:"services"`
-	Parts       []QuotePart    `json:"parts"`
-	Total       int64          `json:"totalCents"`
-	PublishedAt time.Time      `json:"publishedAt"`
-	DecidedAt   *time.Time     `json:"decidedAt"`
-	Decision    *string        `json:"decision"`
+	ID              string         `json:"id"`
+	Version         int64          `json:"version"`
+	Status          string         `json:"status"`
+	Services        []QuoteService `json:"services"`
+	Parts           []QuotePart    `json:"parts"`
+	Total           int64          `json:"totalCents"`
+	PublishedAt     time.Time      `json:"publishedAt"`
+	DecidedAt       *time.Time     `json:"decidedAt"`
+	Decision        *string        `json:"decision"`
+	RejectionReason *string        `json:"rejectionReason"`
 }
 type Event struct {
 	Type       string    `json:"type"`
@@ -165,9 +170,16 @@ func (o *Order) Publish(id string, services []QuoteService, parts []QuotePart, n
 	o.event("QUOTE_PUBLISHED", now)
 	return nil
 }
-func (o *Order) Decide(id, decision string, now time.Time) (bool, error) {
+func (o *Order) Decide(id, decision, reason string, now time.Time) (bool, error) {
 	if decision != "APPROVED" && decision != "REJECTED" {
 		return false, Invalid("Decisão inválida.")
+	}
+	reason = strings.TrimSpace(reason)
+	if decision == "APPROVED" && reason != "" {
+		return false, Invalid("O motivo só se aplica à rejeição.")
+	}
+	if utf8.RuneCountInString(reason) > 500 {
+		return false, Invalid("O motivo deve ter até 500 caracteres.")
 	}
 	if len(o.Quotes) == 0 {
 		return false, Missing()
@@ -200,6 +212,9 @@ func (o *Order) Decide(id, decision string, now time.Time) (bool, error) {
 	q.Status = decision
 	q.Decision = &decision
 	q.DecidedAt = &now
+	if reason != "" {
+		q.RejectionReason = &reason
+	}
 	o.syncQuote()
 	if decision == "REJECTED" {
 		o.Status = Diagnosis
@@ -297,7 +312,7 @@ func (o *Order) CustomerView() map[string]any {
 		for _, p := range q.Parts {
 			qp = append(qp, map[string]any{"name": p.Name, "quantity": p.Quantity, "unitPriceCents": p.UnitPrice, "subtotalCents": p.Subtotal})
 		}
-		quote = map[string]any{"id": q.ID, "version": q.Version, "status": q.Status, "services": qs, "parts": qp, "totalCents": q.Total, "publishedAt": q.PublishedAt, "decidedAt": q.DecidedAt, "decision": q.Decision}
+		quote = map[string]any{"id": q.ID, "version": q.Version, "status": q.Status, "services": qs, "parts": qp, "totalCents": q.Total, "publishedAt": q.PublishedAt, "decidedAt": q.DecidedAt, "decision": q.Decision, "rejectionReason": q.RejectionReason}
 	}
 	return map[string]any{"number": o.Number, "vehicle": o.Vehicle, "status": o.Status, "services": services, "parts": parts, "currentQuote": quote, "history": o.History, "createdAt": o.CreatedAt, "executionStartedAt": o.ExecutionStartedAt, "completedAt": o.CompletedAt, "deliveredAt": o.DeliveredAt}
 }

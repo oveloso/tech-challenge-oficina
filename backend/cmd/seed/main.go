@@ -8,8 +8,8 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"log/slog"
-	"oficina/internal/domain"
 	"oficina/internal/auth"
+	"oficina/internal/domain"
 	"oficina/internal/platform"
 	"oficina/internal/registry"
 	"oficina/internal/workorders"
@@ -171,7 +171,7 @@ func delivered(ctx context.Context, w *workorders.Service, customer, vehicle, pr
 		return e
 	}
 	hash := sha256.Sum256([]byte(access.(map[string]any)["token"].(string)))
-	if o, e = w.Decide(ctx, hash[:], o.CurrentQuote.ID, "APPROVED"); e != nil {
+	if o, e = w.Decide(ctx, hash[:], o.CurrentQuote.ID, "APPROVED", ""); e != nil {
 		return e
 	}
 	for _, s := range o.Services {

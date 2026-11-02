@@ -44,10 +44,10 @@ A dificuldade inicial de inicialização do Docker Desktop foi superada. A [evid
 | Build, seed, saúde e Swagger/OpenAPI | Aprovados |
 | [Fluxo HTTP em Docker](docker-fluxo.json) | 32 requisições e 47 verificações aprovadas |
 | [Persistência após recriação dos contêineres](docker-persistencia.json) | 8 verificações aprovadas; volume preservado |
-| [Testes Go no contêiner](docker-testes.txt) | Unitários e integração aprovados; global 85,8%, domínio 99,0% |
+| [Testes Go no contêiner](docker-testes.txt) | Unitários e integração aprovados; global 88,4%, domínio 99,0% |
 | [CI 40883124842](https://github.com/oveloso/tech_-challenge_pos_fiap/actions/runs/40883124842) | Jobs `backend` e `compose-smoke` aprovados |
 
-O job `backend` executou testes com `-race` em Linux e cobertura global de 85,8%; o domínio permaneceu em 99,0%. O detector de corridas não foi executado no Windows nem no contêiner local com CGO desabilitado. A medição Windows de 85,6% acima é mantida como registro histórico de outra execução. Cada execução da CI identifica o commit analisado; os checks de cada revisão ficam vinculados ao PR.
+O job `backend` executou testes com `-race` em Linux e cobertura global de 88,4% (medição de 02/11/2026); o domínio permaneceu em 99,0%. O detector de corridas não foi executado no Windows nem no contêiner local com CGO desabilitado. A medição Windows de 85,6% acima é mantida como registro histórico de outra execução. Cada execução da CI identifica o commit analisado; os checks de cada revisão ficam vinculados ao PR.
 
 ## Documentação e vídeo
 

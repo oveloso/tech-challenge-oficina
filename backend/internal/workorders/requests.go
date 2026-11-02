@@ -60,8 +60,9 @@ func (r *replaceItemsRequest) validate() error {
 }
 
 type quoteDecisionRequest struct {
-	QuoteID  string `json:"quoteId"`
-	Decision string `json:"decision"`
+	QuoteID  string  `json:"quoteId"`
+	Decision string  `json:"decision"`
+	Reason   *string `json:"reason"`
 }
 
 func (r *quoteDecisionRequest) validate() error {
@@ -72,7 +73,17 @@ func (r *quoteDecisionRequest) validate() error {
 	if r.Decision != "APPROVED" && r.Decision != "REJECTED" {
 		return domain.Invalid("Decisão inválida.")
 	}
+	if r.Reason != nil && r.Decision == "APPROVED" && strings.TrimSpace(*r.Reason) != "" {
+		return domain.Invalid("O motivo só se aplica à rejeição.")
+	}
 	return nil
+}
+
+func (r *quoteDecisionRequest) reasonText() string {
+	if r.Reason == nil {
+		return ""
+	}
+	return *r.Reason
 }
 
 func decodeOrderRequest(c *gin.Context, request any) error {

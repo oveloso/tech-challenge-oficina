@@ -28,7 +28,7 @@ func published(t *testing.T) *Order {
 func approved(t *testing.T) *Order {
 	t.Helper()
 	o := published(t)
-	changed, e := o.Decide("quote", "APPROVED", instant)
+	changed, e := o.Decide("quote", "APPROVED", "", instant)
 	must(t, e)
 	if !changed {
 		t.Fatal("first approval must change state")
@@ -87,36 +87,60 @@ func TestQuoteSnapshotsAndOverflow(t *testing.T) {
 		}
 	}
 }
+func TestRejectionReason(t *testing.T) {
+	o := published(t)
+	if _, e := o.Decide("quote", "APPROVED", "caro", instant); e == nil {
+		t.Fatal("reason accepted on approval")
+	}
+	if _, e := o.Decide("quote", "REJECTED", strings.Repeat("a", 501), instant); e == nil {
+		t.Fatal("reason above 500 characters accepted")
+	}
+	changed, e := o.Decide("quote", "REJECTED", "  Achou caro  ", instant)
+	must(t, e)
+	if !changed || o.CurrentQuote.RejectionReason == nil || *o.CurrentQuote.RejectionReason != "Achou caro" {
+		t.Fatal("rejection reason not stored")
+	}
+	view := o.CustomerView()["currentQuote"].(map[string]any)
+	if r := view["rejectionReason"].(*string); r == nil || *r != "Achou caro" {
+		t.Fatal("customer view without rejection reason")
+	}
+	o = published(t)
+	_, e = o.Decide("quote", "REJECTED", " ", instant)
+	must(t, e)
+	if o.CurrentQuote.RejectionReason != nil {
+		t.Fatal("blank reason stored")
+	}
+}
 func TestDecisionIdempotenceAndRevision(t *testing.T) {
 	o := published(t)
-	if _, e := o.Decide("unknown-quote", "APPROVED", instant); e == nil || e.(*Error).Status != 404 {
+	if _, e := o.Decide("unknown-quote", "APPROVED", "", instant); e == nil || e.(*Error).Status != 404 {
 		t.Fatal("quote outside this order must be hidden")
 	}
-	changed, e := o.Decide("quote", "REJECTED", instant)
+	changed, e := o.Decide("quote", "REJECTED", "", instant)
 	must(t, e)
 	if !changed || o.Status != Diagnosis {
 		t.Fatal("rejection must reopen diagnosis")
 	}
 	v := o.Version
-	changed, e = o.Decide("quote", "REJECTED", instant)
+	changed, e = o.Decide("quote", "REJECTED", "", instant)
 	must(t, e)
 	if changed || o.Version != v {
 		t.Fatal("duplicate rejection changed order")
 	}
-	if _, e = o.Decide("quote", "APPROVED", instant); e == nil {
+	if _, e = o.Decide("quote", "APPROVED", "", instant); e == nil {
 		t.Fatal("opposite decision accepted")
 	}
 	must(t, o.Publish("q2", []QuoteService{{Price: 200}}, nil, instant))
-	if _, e = o.Decide("quote", "REJECTED", instant); e == nil {
+	if _, e = o.Decide("quote", "REJECTED", "", instant); e == nil {
 		t.Fatal("old decision accepted")
 	}
-	_, e = o.Decide("q2", "APPROVED", instant)
+	_, e = o.Decide("q2", "APPROVED", "", instant)
 	must(t, e)
 	must(t, o.Reopen(instant))
 	if o.CurrentQuote.Status != "SUPERSEDED" || o.Status != Diagnosis {
 		t.Fatal("reopen did not supersede")
 	}
-	if _, e = o.Decide("q2", "APPROVED", instant); e == nil {
+	if _, e = o.Decide("q2", "APPROVED", "", instant); e == nil {
 		t.Fatal("superseded decision accepted")
 	}
 	must(t, o.Publish("q3", []QuoteService{{Price: 300}}, nil, instant))
@@ -166,10 +190,10 @@ func TestInvalidTransitions(t *testing.T) {
 	if e := o.Publish("q", []QuoteService{{Price: 1}}, nil, instant); e == nil {
 		t.Fatal("publish received")
 	}
-	if _, e := o.Decide("q", "OTHER", instant); e == nil {
+	if _, e := o.Decide("q", "OTHER", "", instant); e == nil {
 		t.Fatal("invalid decision")
 	}
-	if _, e := o.Decide("q", "APPROVED", instant); e == nil {
+	if _, e := o.Decide("q", "APPROVED", "", instant); e == nil {
 		t.Fatal("no quote")
 	}
 	if _, e := o.StartService("execution", instant); e == nil {
@@ -217,7 +241,7 @@ func TestInvalidTransitions(t *testing.T) {
 	}
 	o = published(t)
 	o.Status = Executing
-	if _, e = o.Decide("quote", "APPROVED", instant); e == nil {
+	if _, e = o.Decide("quote", "APPROVED", "", instant); e == nil {
 		t.Fatal("decision wrong state")
 	}
 }

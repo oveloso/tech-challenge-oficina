@@ -17,7 +17,7 @@ Identificação: **Grupo 1 — Lucas Velôso — RM 377934**, curso SOAT, fase 1
 | Monólito em camadas e justificativa do banco | 4, 10 | Código, arquitetura e decisões | JSONB, restrições relacionais e transações documentados |
 | REST e OpenAPI/Swagger | 4–6, 10 | Contrato e documentação local | 40 operações servidas pelo backend |
 | Dockerfile e Compose | 4 | Build e execução reproduzíveis | Docker local e CI aprovados; seed, saúde e persistência verificados |
-| Testes e cobertura mínima | 4–5, 11 | Relatórios reproduzíveis | Linux/CI: 85,8% global e 99,0% no domínio |
+| Testes e cobertura mínima | 4–5, 11 | Relatórios reproduzíveis | Linux: 88,4% global e 99,0% no domínio |
 | Análise de vulnerabilidades | 5, 7 | Relatório com interpretação dos achados | Relatório disponível; ressalva abaixo |
 | README completo | 5–6 | Execução, testes, autenticação, arquitetura e links | Documentado, com links para o pacote de entrega |
 | Event Storming, C4 até o nível 3 e linguagem ubíqua | 8–9 e orientação complementar | Diagramas, glossário e fontes | Board no Miro, PDFs e Markdown disponíveis |
@@ -39,11 +39,11 @@ Conforme orientação do professor, a documentação reúne Event Storming, ling
 
 Os [testes de integração](evidencias/integracao.txt) cobrem autenticação, cadastros, fluxo completo de OS, snapshots, revisão de orçamento, isolamento e rotação de tokens, estoque insuficiente, concorrência e rollback. A [validação Docker](evidencias/docker.txt) executou build, seed, saúde, Swagger/OpenAPI e um fluxo de 32 requisições com 47 verificações aprovadas. Após recriar os contêineres sem excluir o volume, as oito verificações de persistência também passaram.
 
-Os jobs `backend` e `compose-smoke` passaram na [execução 40883124842 do GitHub Actions](https://github.com/oveloso/tech_-challenge_pos_fiap/actions/runs/40883124842). A execução Linux inclui testes com detector de corridas. A cobertura global foi **85,8%**, incluindo os pontos de entrada e persistência com `-coverpkg=./...`; o domínio alcançou **99,0%**. A medição histórica no Windows, em 28/10/2026, permanece registrada em **85,6%** global. São execuções distintas, detalhadas no [registro de verificação](evidencias/verificacao.md).
+Os jobs `backend` e `compose-smoke` passaram na [execução 40883124842 do GitHub Actions](https://github.com/oveloso/tech_-challenge_pos_fiap/actions/runs/40883124842). A execução Linux inclui testes com detector de corridas. A cobertura global foi **88,4%** na medição de 02/11/2026, incluindo os pontos de entrada e persistência com `-coverpkg=./...`; o domínio alcançou **99,0%**. A medição histórica no Windows, em 28/10/2026, permanece registrada em **85,6%** global. São execuções distintas, detalhadas no [registro de verificação](evidencias/verificacao.md).
 
 O [govulncheck](evidencias/govulncheck.txt) registrou zero vulnerabilidades em código alcançável e zero em pacotes importados, com um achado em módulo requerido sem chamada identificada. Isso não equivale a ausência total de achados em dependências. Conforme orientação do professor, o relatório não precisa estar sem achados; deve apresentar o resultado e sua interpretação.
 
-A [análise de segurança do código](evidencias/gosec.txt), feita com `gosec` v2.30.0 (ferramenta de SAST análoga ao Sonar para Go), verificou 20 arquivos e 2.474 linhas com as regras padrão e registrou zero achados, sem supressões `#nosec`. A mesma análise roda na CI e falha o build se surgir um achado.
+A [análise de segurança do código](evidencias/gosec.txt), feita com `gosec` v2.30.0 (ferramenta de SAST análoga ao Sonar para Go), verificou 20 arquivos e 2.618 linhas com as regras padrão e registrou zero achados, sem supressões `#nosec`. A mesma análise roda na CI e falha o build se surgir um achado.
 
 Swagger precisa de internet para carregar CSS e JavaScript da CDN. A especificação e as operações da API são locais. HTTPS não integra esta demonstração em loopback; uma futura exposição pública exigiria configuração de TLS.
 

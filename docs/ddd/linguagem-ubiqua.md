@@ -17,7 +17,7 @@ Vocabulário usado no Event Storming, na documentação, na API e no código. O 
 | Orçamento | Versão dos serviços e peças, com nomes, preços, quantidades e total congelados para decisão do cliente. |
 | Orçamento vigente | Última versão da OS que pode orientar a decisão ou a execução; uma versão superada não volta a produzir efeitos. |
 | Aprovação | Aceite do orçamento vigente pelo cliente. Não inicia a execução nem reserva estoque. |
-| Rejeição | Recusa do orçamento vigente; devolve a OS ao diagnóstico. Não cancela a OS. |
+| Rejeição | Recusa do orçamento vigente, com motivo opcional informado pelo cliente; devolve a OS ao diagnóstico. Não cancela a OS. |
 | Reabertura do diagnóstico | Ação anterior à execução que supera o orçamento pendente ou aprovado e exige novo orçamento e nova aprovação. |
 | Baixa | Saída de todas as peças aprovadas, uma única vez, ao iniciar o primeiro serviço. |
 | Movimento de estoque | Registro explícito de entrada ou saída com quantidade assinada e motivo; pode referenciar a OS. |
@@ -47,7 +47,7 @@ Orçamento: `PENDING`, `APPROVED`, `REJECTED` e `SUPERSEDED` (superado pela reab
 | Diagnóstico iniciado | `DIAGNOSIS_STARTED` | `Order.StartDiagnosis` |
 | Diagnóstico reaberto | `DIAGNOSIS_REOPENED` | `Order.Reopen` |
 | Orçamento publicado | `QUOTE_PUBLISHED` | `Order.Publish` |
-| Orçamento aprovado / rejeitado | `QUOTE_APPROVED` / `QUOTE_REJECTED` | `Order.Decide` |
+| Orçamento aprovado / rejeitado (com motivo) | `QUOTE_APPROVED` / `QUOTE_REJECTED`; motivo em `rejectionReason` | `Order.Decide` |
 | Serviço iniciado | `SERVICE_STARTED` | `Order.StartService` |
 | Peças baixadas do estoque | movimento `SERVICE_ORDER_CONSUMPTION` | `workorders` no primeiro início de serviço |
 | Serviço concluído | `SERVICE_COMPLETED` | `Order.CompleteService` |
@@ -56,4 +56,4 @@ Orçamento: `PENDING`, `APPROVED`, `REJECTED` e `SUPERSEDED` (superado pela reab
 
 ## Fora do MVP
 
-Termos que surgiram no brainstorm do Event Storming e ficaram para as próximas fases: pagamento (sinal e saldo), compras a fornecedores, prazo de chegada de peças, agendamento, gestão de pátio, envio do orçamento por e-mail ou WhatsApp e aceite presencial do orçamento.
+Termos que surgiram no brainstorm do Event Storming e ficaram para as próximas fases: pagamento (sinal e saldo), compras a fornecedores, prazo de chegada de peças, agendamento, gestão de pátio, envio do orçamento por e-mail ou WhatsApp, aceite presencial, desconto, composição de preço com margem, portal do cliente com fotos e tipos de veículo além de carros. O motivo da recusa, que surgiu na mesma revisão, entrou nesta fase.

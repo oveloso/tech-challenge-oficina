@@ -51,7 +51,7 @@ func (s *Service) Register(admin, customer *gin.RouterGroup) {
 			platform.Fail(c, e)
 			return
 		}
-		o, e := s.Decide(c.Request.Context(), c.MustGet("customerTokenHash").([]byte), request.QuoteID, request.Decision)
+		o, e := s.Decide(c.Request.Context(), c.MustGet("customerTokenHash").([]byte), request.QuoteID, request.Decision, request.reasonText())
 		if e != nil {
 			platform.Fail(c, e)
 			return
