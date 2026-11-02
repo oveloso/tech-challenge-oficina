@@ -24,7 +24,7 @@ flowchart LR
 
 São uma aplicação Go monolítica e um banco PostgreSQL 18. O próprio backend serve `/docs` e o contrato estático `/openapi.yaml`. Swagger carrega CSS e JavaScript de `swagger-ui-dist` 5.33.1 via CDN; esses assets precisam de internet. As chamadas da API e o contrato permanecem locais. HTTP é aceitável em localhost; uma publicação externa deve terminar HTTPS no servidor web ou proxy.
 
-Docker Compose configura a API, o banco e uma tarefa de carga inicial (`seed`). A execução completa em contêineres foi validada localmente e na CI, no job `compose-smoke`, conforme a [validação Docker](evidencias/docker.txt).
+Docker Compose configura a API, o banco e uma tarefa de carga inicial (`seed`). A execução completa em contêineres é validada a cada PR pelo job `compose-smoke` da [CI](https://github.com/oveloso/tech_-challenge_pos_fiap/actions/runs/41526702477).
 
 Na execução nativa, `HOST` é `127.0.0.1` por padrão, limitando o acesso ao próprio computador. No contêiner, `HOST=0.0.0.0` permite receber tráfego do Docker; a porta publicada pelo Compose continua vinculada a `127.0.0.1` no host.
 

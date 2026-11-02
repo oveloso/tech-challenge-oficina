@@ -4,6 +4,10 @@ API da fase 1 do FIAP SOAT para gerenciar clientes, veículos, serviços, estoqu
 
 A aplicação é um monólito em camadas com **Go 1.26.0 ou superior, Gin 1.12.0, PostgreSQL 18 e pgx**. As **40 operações** estão descritas em OpenAPI e podem ser executadas pelo Swagger servido pelo próprio backend.
 
+## Objetivo
+
+Dar à oficina controle sobre o atendimento de ponta a ponta: o que entrou, em que estado está cada veículo, o que o cliente aprovou e quais peças saíram do estoque. O MVP cobre três fluxos, levantados no Event Storming: criação da OS com diagnóstico e orçamento, acompanhamento da OS pelo funcionário e pelo cliente até a entrega, e gestão de peças e insumos.
+
 ## Execução local
 
 Execute os comandos a partir da raiz do projeto. Escolha Docker Compose ou execução nativa. Os scripts de configuração criam `.env` com credenciais aleatórias e preservam um arquivo já existente; os valores reais não são versionados.
@@ -29,7 +33,7 @@ API e banco são publicados apenas em `127.0.0.1`, nas portas `API_PORT` e `DB_P
 docker compose down
 ```
 
-**Validação concluída:** o ambiente foi construído e executado com Docker Desktop/Engine, incluindo PostgreSQL, seed, saúde, Swagger/OpenAPI e fluxo completo da OS. A persistência foi confirmada após recriar os contêineres sem apagar o volume. A [evidência Docker](docs/evidencias/docker.txt) registra a execução isolada nas portas 18080 e 15432; o [job compose-smoke no GitHub Actions](https://github.com/oveloso/tech_-challenge_pos_fiap/actions/runs/40883124842) também passou.
+**Validação:** o job [compose-smoke da CI](https://github.com/oveloso/tech_-challenge_pos_fiap/actions/runs/41526702477) constrói e sobe o ambiente Docker a cada PR, confere seed, saúde, Swagger e OpenAPI e autentica o administrador.
 
 ### Windows com Go e PostgreSQL
 
@@ -171,11 +175,11 @@ go run golang.org/x/vuln/cmd/govulncheck@v1.9.0 ./...
 go run github.com/securego/gosec/v2/cmd/gosec@v2.30.0 ./...
 ```
 
-A medição de 02/11/2026 em Linux/Docker, com detector de corridas, registrou **88,4% de cobertura global** e **99,0% no domínio**, com PostgreSQL real. O resultado histórico de 28/10/2026 no Windows foi 85,6% global e permanece preservado. Formatação, `go vet`, build e testes passaram. O contrato foi validado com 40 operações, 26 caminhos e 380 referências; Swagger respondeu HTTP 200 e foi conferido no navegador. Os comandos, resultados e limites estão no [registro de verificação](docs/evidencias/verificacao.md).
+A medição de 02/11/2026 em Linux/Docker, com detector de corridas, registrou **88,4% de cobertura global** e **99,0% no domínio**, com PostgreSQL real. Formatação, `go vet`, build e testes passaram. O contrato tem 40 operações e é servido pelo Swagger. Os comandos, resultados e limites estão no [registro de verificação](docs/evidencias/verificacao.md).
 
-Evidências: [cobertura](docs/evidencias/cobertura.txt), [fluxo integrado](docs/evidencias/integracao.txt), [entradas inválidas e limites](docs/evidencias/integracao-entradas-hostis.txt), [testes](docs/evidencias/testes.txt), [vulnerabilidades em dependências](docs/evidencias/govulncheck.txt) e [análise de segurança do código](docs/evidencias/gosec.txt).
+Evidências: [testes](docs/evidencias/testes.txt), [cobertura](docs/evidencias/cobertura.txt), [vulnerabilidades em dependências](docs/evidencias/govulncheck.txt) e [análise de segurança do código](docs/evidencias/gosec.txt).
 
-A [CI](.github/workflows/ci.yml) configura PostgreSQL 18 e executa formatação, `go vet`, build, testes com detector de corridas, cobertura, `govulncheck` e `gosec`; o job `compose-smoke` constrói e sobe o ambiente Docker. Os jobs `backend` e `compose-smoke` passaram na [execução 40883124842](https://github.com/oveloso/tech_-challenge_pos_fiap/actions/runs/40883124842). Os resultados de segurança e demais limites são detalhados em [Requisitos e evidências](docs/entrega-fase-1.md).
+A [CI](.github/workflows/ci.yml) configura PostgreSQL 18 e executa formatação, `go vet`, build, testes com detector de corridas, cobertura, `govulncheck` e `gosec`; o job `compose-smoke` constrói e sobe o ambiente Docker. Os jobs `backend` e `compose-smoke` passaram na [execução 41526702477](https://github.com/oveloso/tech_-challenge_pos_fiap/actions/runs/41526702477). Os resultados de segurança e demais limites são detalhados em [Requisitos e evidências](docs/entrega-fase-1.md).
 
 ## Organização e decisões
 
@@ -195,6 +199,8 @@ docs/                 contrato, arquitetura, DDD e evidências
 scripts/              configuração e execução local
 ```
 
+**Por que PostgreSQL.** O ponto crítico do domínio é a baixa de estoque no início do serviço: a OS e todos os itens precisam mudar juntos ou não mudar. PostgreSQL oferece transações ACID, bloqueio de linhas (`SELECT ... FOR UPDATE`) e restrições no próprio banco, como saldo não negativo e documento, placa e SKU únicos. Com isso, concorrência e rollback são garantidos pelo banco, não só pela aplicação. O JSONB permite gravar o agregado de OS inteiro, com itens, orçamentos e histórico, sem abrir mão dessas garantias. Detalhes em [Decisões de arquitetura](docs/decisions/0001-fundamentos.md).
+
 Cadastros e o agregado de OS usam JSONB, com colunas geradas, chaves estrangeiras, unicidade e restrições de integridade nos vínculos principais. Movimentos de estoque são registros separados. Essa escolha simplifica a persistência do agregado e seus snapshots no MVP, com o custo de regravar documentos e consultar arrays JSONB nos indicadores. A baixa usa transação e bloqueios para impedir saldo negativo ou consumo duplicado.
 
 ## Documentação e entrega acadêmica
@@ -211,7 +217,7 @@ Cadastros e o agregado de OS usam JSONB, com colunas geradas, chaves estrangeira
 - [Vídeo da apresentação](entrega/video/README.md)
 - [Diagramas C4 em PDF](docs/ddd/diagramas.pdf)
 
-O modelo DDD é uma construção conceitual do projeto. A entrega identifica **Grupo 1 — Lucas Velôso — RM 377934**; Discord: **lucasveloso**. O desenvolvimento teve apoio de IA da OpenAI/Codex (GPT-6) e da Anthropic (Claude), com responsabilidade acadêmica do integrante.
+O modelo DDD é uma construção conceitual do projeto. A entrega identifica **Grupo 1 — Lucas Velôso — RM 377934**; Discord: **Velos0**. O desenvolvimento teve apoio de IA da OpenAI/Codex (GPT-6) e da Anthropic (Claude), com responsabilidade acadêmica do integrante.
 
 O [repositório é público](https://github.com/oveloso/tech_-challenge_pos_fiap). A `main` está protegida: mudanças por PR, checks `backend` e `compose-smoke` obrigatórios, regras aplicadas também a administradores e bloqueio de force push e exclusão. Como o grupo possui um integrante, não há aprovação adicional obrigatória. O histórico da implementação e seus checks estão no [PR #1](https://github.com/oveloso/tech_-challenge_pos_fiap/pull/1).
 

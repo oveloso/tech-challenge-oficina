@@ -1,60 +1,35 @@
-# Verificações — 28 e 29/10/2026
+# Verificações — 02/11/2026
 
-## Registro histórico no Windows — 28/10/2026
-
-Ambiente: Windows, Go 1.27.3 e PostgreSQL 18.6 nativo. A API atende somente em `127.0.0.1:8080` na execução local. Não foi necessário alterar o firewall. Os testes usam um banco separado, `oficina_test`.
+Ambiente: Go 1.27.3 (imagem `golang:1.27.3`) e PostgreSQL 18 (imagem `postgres:18-alpine`), em contêineres descartáveis. A mesma verificação roda na CI a cada PR.
 
 | Verificação | Resultado |
 |---|---|
-| `gofmt -l ./backend` | Nenhum arquivo pendente de formatação |
-| `go vet ./...` e `go build ./...`, em `backend` | Aprovados |
-| Testes unitários e integração com PostgreSQL | Aprovados; [saída](testes.txt) |
-| Cobertura global com `-coverpkg=./...` | **85,6%**; [resultado por função](cobertura.txt) |
+| `gofmt`, `go vet` e `go build` | Aprovados |
+| Testes unitários e de integração com PostgreSQL, com `-race` | Aprovados; [saída](testes.txt) |
+| Cobertura global com `-coverpkg=./...` | **88,4%**; [resultado por função](cobertura.txt) |
 | Cobertura de `internal/domain` | **99,0%** |
-| Fluxo HTTP completo, concorrência e rollback | Aprovados; [fluxos](integracao.txt) e [entradas inválidas](integracao-entradas-hostis.txt) |
-| `govulncheck` 1.9.0 | Zero vulnerabilidades alcançáveis; ressalva abaixo |
-| `docker compose config --quiet` | Configuração válida |
-| Contrato OpenAPI 3.0.3 | Validado contra o schema oficial; 40 operações, 26 caminhos e 380 referências resolvidas |
-| Swagger, chamada `GET /api/v1/health` | HTTP 200 e `{"status":"ok"}` confirmados no navegador |
-| Exportações DDD | Seis PNGs 1920 × 1080 e dois PDFs de três páginas; imagens e páginas renderizadas conferidas visualmente |
+| `govulncheck` 1.9.0 (dependências) | Zero vulnerabilidades alcançáveis; [relatório](govulncheck.txt) |
+| `gosec` 2.30.0 (código) | Zero achados em 20 arquivos e 2.618 linhas; [relatório](gosec.txt) |
+| [CI 41526702477](https://github.com/oveloso/tech_-challenge_pos_fiap/actions/runs/41526702477) | Jobs `backend` e `compose-smoke` aprovados |
 
-Para reproduzir no PowerShell, com Go no PATH, `.env` configurado e o banco de testes criado:
+Para reproduzir sem Go instalado, apenas com Docker:
 
 ```powershell
-./scripts/run.ps1 -Action test -DatabasePort 55432
-Set-Location backend
-go tool cover -func=coverage.out
-go test -count=1 -coverprofile=domain-coverage.out ./internal/domain
-go tool cover -func=domain-coverage.out
-go vet ./...
-go build ./...
-go run golang.org/x/vuln/cmd/govulncheck@v1.9.0 -show verbose ./...
+./scripts/test-docker.ps1
 ```
 
-A porta `55432` corresponde ao PostgreSQL usado nesta verificação. Ajuste-a à sua instalação. O comando de testes executa `go test -count=1 -coverpkg=./... -coverprofile=coverage.out ./...`; sem `TEST_DATABASE_URL`, a integração é ignorada e a cobertura será menor.
+Com Go no PATH, `.env` configurado e o banco de testes criado, `./scripts/run.ps1 -Action test` executa `go test -count=1 -coverpkg=./... -coverprofile=coverage.out ./...`. Sem `TEST_DATABASE_URL`, a integração é ignorada e a cobertura será menor.
 
-O [relatório de segurança](govulncheck.txt) registra o aviso GO-2026-5932 referente a `golang.org/x/crypto/openpgp`, um pacote descontinuado que a aplicação não importa. O módulo `golang.org/x/crypto` é utilizado para bcrypt. Foram encontrados zero problemas nos símbolos alcançáveis e nos pacotes importados, e um aviso em módulo requerido. Conforme orientação do professor, não é necessário zerar os achados para apresentar o relatório. O resultado não substitui revisão de segurança nem garante ausência de vulnerabilidades.
+O [relatório do govulncheck](govulncheck.txt) registra um aviso em `golang.org/x/crypto`, módulo usado para bcrypt, em um pacote que a aplicação não importa. Foram encontrados zero problemas nos símbolos alcançáveis e nos pacotes importados. Conforme orientação do professor, não é necessário zerar os achados para apresentar o relatório. O resultado não substitui revisão de segurança nem garante ausência de vulnerabilidades.
 
-## Docker e CI — 29/10/2026
+O job `compose-smoke` constrói as imagens, sobe PostgreSQL, seed e API pelo Docker Compose, confere `/health`, `/docs` e `/openapi.yaml` e autentica o administrador criado pelo seed.
 
-A dificuldade inicial de inicialização do Docker Desktop foi superada. A [evidência Docker](docker.txt) registra o build e a execução real do Compose, com PostgreSQL 18.6, seed concluído, API/banco saudáveis e Swagger/OpenAPI disponíveis. O ambiente de verificação usou as portas 18080 e 15432, preservando a API e o banco nativos.
+## Documentação e entrega
 
-| Verificação | Resultado |
-|---|---|
-| Build, seed, saúde e Swagger/OpenAPI | Aprovados |
-| [Fluxo HTTP em Docker](docker-fluxo.json) | 32 requisições e 47 verificações aprovadas |
-| [Persistência após recriação dos contêineres](docker-persistencia.json) | 8 verificações aprovadas; volume preservado |
-| [Testes Go no contêiner](docker-testes.txt) | Unitários e integração aprovados; global 88,4%, domínio 99,0% |
-| [CI 40883124842](https://github.com/oveloso/tech_-challenge_pos_fiap/actions/runs/40883124842) | Jobs `backend` e `compose-smoke` aprovados |
+O Swagger é servido pela própria API em `/docs` e carrega os assets da versão 5.33.1 pela CDN. A especificação em `/openapi.yaml` e as operações da API são locais.
 
-O job `backend` executou testes com `-race` em Linux e cobertura global de 88,4% (medição de 02/11/2026); o domínio permaneceu em 99,0%. O detector de corridas não foi executado no Windows nem no contêiner local com CGO desabilitado. A medição Windows de 85,6% acima é mantida como registro histórico de outra execução. Cada execução da CI identifica o commit analisado; os checks de cada revisão ficam vinculados ao PR.
+A documentação DDD reúne o [Event Storming no Miro](https://miro.com/app/board/uXjVETuWRiI=/), o [C4 níveis 1, 2 e 3](../ddd/diagramas.pdf) e a [linguagem ubíqua](../ddd/linguagem-ubiqua.md). O nível 3 detalha o início do primeiro serviço com baixa transacional de estoque.
 
-## Documentação e vídeo
+A identificação é **Grupo 1 — Lucas Velôso — RM 377934**. Discord: **Velos0**. O [vídeo](../../entrega/video/README.md) é gravado com a narração do integrante; o link público do YouTube será adicionado após a gravação.
 
-O Swagger é servido pela própria API em `/docs` e carrega os assets da versão 5.33.1 pela CDN. A especificação em `/openapi.yaml` e as operações da API são locais. A evidência de execução no Swagger está em [swagger.png](swagger.png).
-
-As exportações locais cobrem [Event Storming no Miro](https://miro.com/app/board/uXjVETuWRiI=/), [C4 níveis 1, 2 e 3](../ddd/diagramas.pdf) e a [linguagem ubíqua](../ddd/linguagem-ubiqua.md), conforme orientação do professor. O nível 3 detalha um cenário: início do primeiro serviço com baixa transacional de estoque. As fontes e imagens estão em [C4 da oficina](../ddd/c4.md).
-
-A identificação é **Grupo 1 — Lucas Velôso — RM 377934**. Discord: **lucasveloso**. O [vídeo](../../entrega/video/README.md) é gravado com a narração do integrante; o link público do YouTube será adicionado após a gravação.
-
-O repositório público e a proteção da `main` estão configurados: PR obrigatório, checks `backend`/`compose-smoke`, aplicação a administradores, sem force push nem exclusão. Por se tratar de grupo individual, não há aprovação adicional obrigatória. O [PR #1](https://github.com/oveloso/tech_-challenge_pos_fiap/pull/1) registra a implementação e suas verificações. O PDF de entrega registra a branch e o commit completo da versão avaliada. O escopo verificado é a API local por HTTP, sem implantação pública.
+O repositório público e a proteção da `main` estão configurados: PR obrigatório, checks `backend`/`compose-smoke`, aplicação a administradores, sem force push nem exclusão. O PDF de entrega registra a branch e o commit completo da versão avaliada. O escopo verificado é a API local por HTTP, sem implantação pública.
