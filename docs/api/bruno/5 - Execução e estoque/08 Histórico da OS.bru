@@ -1,0 +1,21 @@
+meta {
+  name: Histórico da OS
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{baseUrl}}/admin/service-orders/{{orderId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+tests {
+  test("status 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+}

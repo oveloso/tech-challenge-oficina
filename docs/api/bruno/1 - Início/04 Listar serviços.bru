@@ -1,0 +1,26 @@
+meta {
+  name: Listar serviços
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/admin/services
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+script:post-response {
+  const s = res.getBody().data.find((x) => x.name === "Revisão de freios");
+  bru.setVar("serviceId", s.id);
+}
+
+tests {
+  test("status 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+}

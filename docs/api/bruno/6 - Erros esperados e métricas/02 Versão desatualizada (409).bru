@@ -1,0 +1,27 @@
+meta {
+  name: Versão desatualizada (409)
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/admin/service-orders/{{orderId}}/deliver
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+body:json {
+  {
+    "expectedVersion": 1
+  }
+}
+
+tests {
+  test("status 409", function () {
+    expect(res.getStatus()).to.equal(409);
+  });
+}

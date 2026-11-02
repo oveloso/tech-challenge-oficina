@@ -1,0 +1,29 @@
+meta {
+  name: Cliente recusa com motivo
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/customer/service-order/quote-decision
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{customerToken}}
+}
+
+body:json {
+  {
+    "quoteId": "{{quoteId}}",
+    "decision": "REJECTED",
+    "reason": "Achou o valor alto"
+  }
+}
+
+tests {
+  test("status 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+}

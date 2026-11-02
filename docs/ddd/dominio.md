@@ -86,4 +86,4 @@ Os testes unitários exercitam o cálculo de orçamento, transições e validaç
 
 ## Evidências e entrega
 
-Este Markdown e [Event Storming](event-storming.md) registram a modelagem conceitual. A evidência de execução está em [Requisitos e evidências](../entrega-fase-1.md). O C4 está em [diagramas.pdf](diagramas.pdf) e o Event Storming no [board do Miro](https://miro.com/app/board/uXjVETuWRiI=/).
+Este Markdown e [Event Storming](event-storming.md) (com o [PDF exportado do Miro](event-storming.pdf)) registram a modelagem conceitual. A evidência de execução está em [Requisitos e evidências](../entrega-fase-1.md). O C4 está em [diagramas.pdf](diagramas.pdf) e o Event Storming no [board do Miro](https://miro.com/app/board/uXjVETuWRiI=/?share_link_id=192620924232).

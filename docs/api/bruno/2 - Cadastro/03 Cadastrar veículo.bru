@@ -1,0 +1,41 @@
+meta {
+  name: Cadastrar veículo
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/admin/vehicles
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+body:json {
+  {
+    "customerId": "{{customerId}}",
+    "plate": "{{plate}}",
+    "brand": "Volkswagen",
+    "model": "Gol",
+    "year": 2020
+  }
+}
+
+script:pre-request {
+  const L = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const r = (s) => s[Math.floor(Math.random() * s.length)];
+  bru.setVar("plate", r(L) + r(L) + r(L) + r("0123456789") + r(L) + r("0123456789") + r("0123456789"));
+}
+
+script:post-response {
+  bru.setVar("vehicleId", res.getBody().id);
+}
+
+tests {
+  test("status 201", function () {
+    expect(res.getStatus()).to.equal(201);
+  });
+}

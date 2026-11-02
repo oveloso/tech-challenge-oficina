@@ -33,7 +33,7 @@ API e banco são publicados apenas em `127.0.0.1`, nas portas `API_PORT` e `DB_P
 docker compose down
 ```
 
-**Validação:** o job [compose-smoke da CI](https://github.com/oveloso/tech_-challenge_pos_fiap/actions/runs/41526702477) constrói e sobe o ambiente Docker a cada PR, confere seed, saúde, Swagger e OpenAPI e autentica o administrador.
+**Validação:** o job [compose-smoke da CI](https://github.com/oveloso/tech-challenge-oficina/actions/runs/41526702477) constrói e sobe o ambiente Docker a cada PR, confere seed, saúde, Swagger e OpenAPI e autentica o administrador.
 
 ### Windows com Go e PostgreSQL
 
@@ -109,6 +109,8 @@ O token do cliente é aleatório, tem 256 bits e só é retornado na emissão; o
 
 ## Operações e roteiro de demonstração
 
+Além do Swagger, a pasta [docs/api/bruno](docs/api/bruno) traz uma collection do [Bruno](https://www.usebruno.com/) com o fluxo de demonstração em ordem: login, cadastro de cliente e veículo, abertura da OS, orçamento, token do cliente, recusa com motivo, aprovação, execução com baixa de estoque, entrega, erros esperados e métricas. Cada requisição guarda o token, os IDs e o `expectedVersion` para a próxima. Abra a pasta no Bruno, escolha o ambiente `local` e informe `adminPassword` (o `ADMIN_PASSWORD` do `.env`). Pela linha de comando, dentro da pasta: `npx @usebruno/cli@4.2.1 run -r --env local --env-var adminPassword=<senha>`.
+
 Todos os caminhos abaixo usam o prefixo `/api/v1`. Os schemas, exemplos, filtros e respostas estão no [contrato OpenAPI](docs/api/openapi.yaml).
 
 | Grupo | Operações | Quantidade |
@@ -179,7 +181,7 @@ A medição de 02/11/2026 em Linux/Docker, com detector de corridas, registrou *
 
 Evidências: [testes](docs/evidencias/testes.txt), [cobertura](docs/evidencias/cobertura.txt), [vulnerabilidades em dependências](docs/evidencias/govulncheck.txt) e [análise de segurança do código](docs/evidencias/gosec.txt).
 
-A [CI](.github/workflows/ci.yml) configura PostgreSQL 18 e executa formatação, `go vet`, build, testes com detector de corridas, cobertura, `govulncheck` e `gosec`; o job `compose-smoke` constrói e sobe o ambiente Docker. Os jobs `backend` e `compose-smoke` passaram na [execução 41526702477](https://github.com/oveloso/tech_-challenge_pos_fiap/actions/runs/41526702477). Os resultados de segurança e demais limites são detalhados em [Requisitos e evidências](docs/entrega-fase-1.md).
+A [CI](.github/workflows/ci.yml) configura PostgreSQL 18 e executa formatação, `go vet`, build, testes com detector de corridas, cobertura, `govulncheck` e `gosec`; o job `compose-smoke` constrói e sobe o ambiente Docker. Os jobs `backend` e `compose-smoke` passaram na [execução 41526702477](https://github.com/oveloso/tech-challenge-oficina/actions/runs/41526702477). Os resultados de segurança e demais limites são detalhados em [Requisitos e evidências](docs/entrega-fase-1.md).
 
 ## Organização e decisões
 
@@ -209,8 +211,8 @@ Cadastros e o agregado de OS usam JSONB, com colunas geradas, chaves estrangeira
 - [Arquitetura e diagramas](docs/arquitetura.md)
 - [Decisões de arquitetura](docs/decisions/0001-fundamentos.md)
 - [Linguagem ubíqua](docs/ddd/linguagem-ubiqua.md) e [modelo de domínio](docs/ddd/dominio.md)
-- [Event Storming no Miro](https://miro.com/app/board/uXjVETuWRiI=/)
-- [Event Storming](docs/ddd/event-storming.md)
+- [Event Storming no Miro](https://miro.com/app/board/uXjVETuWRiI=/?share_link_id=192620924232)
+- [Event Storming em PDF](docs/ddd/event-storming.pdf) e [resumo em Markdown](docs/ddd/event-storming.md)
 - [C4 até o nível 3 e exportações](docs/ddd/c4.md)
 - [Contrato OpenAPI](docs/api/openapi.yaml)
 - [Requisitos e evidências da entrega](docs/entrega-fase-1.md)
@@ -219,6 +221,6 @@ Cadastros e o agregado de OS usam JSONB, com colunas geradas, chaves estrangeira
 
 O modelo DDD é uma construção conceitual do projeto. A entrega identifica **Grupo 1 — Lucas Velôso — RM 377934**; Discord: **Velos0**. O desenvolvimento teve apoio de IA da OpenAI/Codex (GPT-6) e da Anthropic (Claude), com responsabilidade acadêmica do integrante.
 
-O [repositório é público](https://github.com/oveloso/tech_-challenge_pos_fiap). A `main` está protegida: mudanças por PR, checks `backend` e `compose-smoke` obrigatórios, regras aplicadas também a administradores e bloqueio de force push e exclusão. Como o grupo possui um integrante, não há aprovação adicional obrigatória. O histórico da implementação e seus checks estão no [PR #1](https://github.com/oveloso/tech_-challenge_pos_fiap/pull/1).
+O [repositório é público](https://github.com/oveloso/tech-challenge-oficina). A `main` está protegida: mudanças por PR, checks `backend` e `compose-smoke` obrigatórios, regras aplicadas também a administradores e bloqueio de force push e exclusão. Como o grupo possui um integrante, não há aprovação adicional obrigatória. O histórico da implementação e seus checks estão no [PR #1](https://github.com/oveloso/tech-challenge-oficina/pull/1).
 
 O PDF de entrega reúne identificação, links e o commit completo da versão avaliada; o link público do YouTube será adicionado após a gravação. O escopo técnico é uma API executada localmente por HTTP em loopback, demonstrada pelo Swagger; não inclui implantação pública. HTTPS seria necessário para uma futura exposição em rede.

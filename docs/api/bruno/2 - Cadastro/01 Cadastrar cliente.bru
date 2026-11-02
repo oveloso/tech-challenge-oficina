@@ -1,0 +1,45 @@
+meta {
+  name: Cadastrar cliente
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/admin/customers
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+body:json {
+  {
+    "name": "Cliente da Apresentação",
+    "documentType": "CPF",
+    "document": "{{cpf}}",
+    "email": "apresentacao@example.com",
+    "phone": null
+  }
+}
+
+script:pre-request {
+  const n = Array.from({ length: 9 }, () => Math.floor(Math.random() * 10));
+  for (const len of [9, 10]) {
+    let sum = 0;
+    for (let i = 0; i < len; i++) sum += n[i] * (len + 1 - i);
+    n.push(((sum * 10) % 11) % 10);
+  }
+  bru.setVar("cpf", n.join(""));
+}
+
+script:post-response {
+  bru.setVar("customerId", res.getBody().id);
+}
+
+tests {
+  test("status 201", function () {
+    expect(res.getStatus()).to.equal(201);
+  });
+}

@@ -1,0 +1,17 @@
+meta {
+  name: Sem token (401)
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/admin/customers
+  body: none
+  auth: none
+}
+
+tests {
+  test("status 401", function () {
+    expect(res.getStatus()).to.equal(401);
+  });
+}

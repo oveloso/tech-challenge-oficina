@@ -10,7 +10,7 @@ Ambiente: Go 1.27.3 (imagem `golang:1.27.3`) e PostgreSQL 18 (imagem `postgres:1
 | Cobertura de `internal/domain` | **99,0%** |
 | `govulncheck` 1.9.0 (dependências) | Zero vulnerabilidades alcançáveis; [relatório](govulncheck.txt) |
 | `gosec` 2.30.0 (código) | Zero achados em 20 arquivos e 2.618 linhas; [relatório](gosec.txt) |
-| [CI 41526702477](https://github.com/oveloso/tech_-challenge_pos_fiap/actions/runs/41526702477) | Jobs `backend` e `compose-smoke` aprovados |
+| [CI 41526702477](https://github.com/oveloso/tech-challenge-oficina/actions/runs/41526702477) | Jobs `backend` e `compose-smoke` aprovados |
 
 Para reproduzir sem Go instalado, apenas com Docker:
 
@@ -28,7 +28,7 @@ O job `compose-smoke` constrói as imagens, sobe PostgreSQL, seed e API pelo Doc
 
 O Swagger é servido pela própria API em `/docs` e carrega os assets da versão 5.33.1 pela CDN. A especificação em `/openapi.yaml` e as operações da API são locais.
 
-A documentação DDD reúne o [Event Storming no Miro](https://miro.com/app/board/uXjVETuWRiI=/), o [C4 níveis 1, 2 e 3](../ddd/diagramas.pdf) e a [linguagem ubíqua](../ddd/linguagem-ubiqua.md). O nível 3 detalha o início do primeiro serviço com baixa transacional de estoque.
+A documentação DDD reúne o [Event Storming no Miro](https://miro.com/app/board/uXjVETuWRiI=/?share_link_id=192620924232), o [C4 níveis 1, 2 e 3](../ddd/diagramas.pdf) e a [linguagem ubíqua](../ddd/linguagem-ubiqua.md). O nível 3 detalha o início do primeiro serviço com baixa transacional de estoque.
 
 A identificação é **Grupo 1 — Lucas Velôso — RM 377934**. Discord: **Velos0**. O [vídeo](../../entrega/video/README.md) é gravado com a narração do integrante; o link público do YouTube será adicionado após a gravação.
 
