@@ -30,9 +30,9 @@ Identificação: **Grupo 1 — Lucas Velôso — RM 377934**, curso SOAT, fase 1
 
 Conforme orientação do professor, a documentação reúne Event Storming, linguagem ubíqua e C4 nos níveis 1, 2 e 3. O nível 3 detalha um cenário: início do primeiro serviço com baixa de estoque. O modelo é uma construção conceitual do projeto, sem alegação de workshop com especialistas.
 
-- [C4 em PDF](ddd/diagramas.pdf).
+- [Event Storming em PDF](ddd/event-storming.pdf), exportado do Miro, e [C4 em PDF](ddd/diagramas.pdf).
 - [Linguagem ubíqua](ddd/linguagem-ubiqua.md) e [modelo de domínio](ddd/dominio.md).
-- [Event Storming no Miro](https://miro.com/app/board/uXjVETuWRiI=/).
+- [Event Storming no Miro](https://miro.com/app/board/uXjVETuWRiI=/?share_link_id=192620924232).
 - [Imagens e fontes Mermaid do C4](ddd/c4.md).
 
 ## Verificação técnica
