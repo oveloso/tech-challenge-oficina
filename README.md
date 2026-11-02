@@ -4,6 +4,10 @@ API da fase 1 do FIAP SOAT para gerenciar clientes, veículos, serviços, estoqu
 
 A aplicação é um monólito em camadas com **Go 1.26.0 ou superior, Gin 1.12.0, PostgreSQL 18 e pgx**. As **40 operações** estão descritas em OpenAPI e podem ser executadas pelo Swagger servido pelo próprio backend.
 
+## Objetivo
+
+Dar à oficina controle sobre o atendimento de ponta a ponta: o que entrou, em que estado está cada veículo, o que o cliente aprovou e quais peças saíram do estoque. O MVP cobre três fluxos, levantados no Event Storming: criação da OS com diagnóstico e orçamento, acompanhamento da OS pelo funcionário e pelo cliente até a entrega, e gestão de peças e insumos.
+
 ## Execução local
 
 Execute os comandos a partir da raiz do projeto. Escolha Docker Compose ou execução nativa. Os scripts de configuração criam `.env` com credenciais aleatórias e preservam um arquivo já existente; os valores reais não são versionados.
@@ -194,6 +198,8 @@ backend/
 docs/                 contrato, arquitetura, DDD e evidências
 scripts/              configuração e execução local
 ```
+
+**Por que PostgreSQL.** O ponto crítico do domínio é a baixa de estoque no início do serviço: a OS e todos os itens precisam mudar juntos ou não mudar. PostgreSQL oferece transações ACID, bloqueio de linhas (`SELECT ... FOR UPDATE`) e restrições no próprio banco, como saldo não negativo e documento, placa e SKU únicos. Com isso, concorrência e rollback são garantidos pelo banco, não só pela aplicação. O JSONB permite gravar o agregado de OS inteiro, com itens, orçamentos e histórico, sem abrir mão dessas garantias. Detalhes em [Decisões de arquitetura](docs/decisions/0001-fundamentos.md).
 
 Cadastros e o agregado de OS usam JSONB, com colunas geradas, chaves estrangeiras, unicidade e restrições de integridade nos vínculos principais. Movimentos de estoque são registros separados. Essa escolha simplifica a persistência do agregado e seus snapshots no MVP, com o custo de regravar documentos e consultar arrays JSONB nos indicadores. A baixa usa transação e bloqueios para impedir saldo negativo ou consumo duplicado.
 
