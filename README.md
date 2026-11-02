@@ -33,7 +33,7 @@ API e banco são publicados apenas em `127.0.0.1`, nas portas `API_PORT` e `DB_P
 docker compose down
 ```
 
-**Validação:** o job [compose-smoke da CI](https://github.com/oveloso/tech_-challenge_pos_fiap/actions/runs/41526702477) constrói e sobe o ambiente Docker a cada PR, confere seed, saúde, Swagger e OpenAPI e autentica o administrador.
+**Validação:** o job [compose-smoke da CI](https://github.com/oveloso/tech-challenge-oficina/actions/runs/41526702477) constrói e sobe o ambiente Docker a cada PR, confere seed, saúde, Swagger e OpenAPI e autentica o administrador.
 
 ### Windows com Go e PostgreSQL
 
@@ -179,7 +179,7 @@ A medição de 02/11/2026 em Linux/Docker, com detector de corridas, registrou *
 
 Evidências: [testes](docs/evidencias/testes.txt), [cobertura](docs/evidencias/cobertura.txt), [vulnerabilidades em dependências](docs/evidencias/govulncheck.txt) e [análise de segurança do código](docs/evidencias/gosec.txt).
 
-A [CI](.github/workflows/ci.yml) configura PostgreSQL 18 e executa formatação, `go vet`, build, testes com detector de corridas, cobertura, `govulncheck` e `gosec`; o job `compose-smoke` constrói e sobe o ambiente Docker. Os jobs `backend` e `compose-smoke` passaram na [execução 41526702477](https://github.com/oveloso/tech_-challenge_pos_fiap/actions/runs/41526702477). Os resultados de segurança e demais limites são detalhados em [Requisitos e evidências](docs/entrega-fase-1.md).
+A [CI](.github/workflows/ci.yml) configura PostgreSQL 18 e executa formatação, `go vet`, build, testes com detector de corridas, cobertura, `govulncheck` e `gosec`; o job `compose-smoke` constrói e sobe o ambiente Docker. Os jobs `backend` e `compose-smoke` passaram na [execução 41526702477](https://github.com/oveloso/tech-challenge-oficina/actions/runs/41526702477). Os resultados de segurança e demais limites são detalhados em [Requisitos e evidências](docs/entrega-fase-1.md).
 
 ## Organização e decisões
 
@@ -219,6 +219,6 @@ Cadastros e o agregado de OS usam JSONB, com colunas geradas, chaves estrangeira
 
 O modelo DDD é uma construção conceitual do projeto. A entrega identifica **Grupo 1 — Lucas Velôso — RM 377934**; Discord: **Velos0**. O desenvolvimento teve apoio de IA da OpenAI/Codex (GPT-6) e da Anthropic (Claude), com responsabilidade acadêmica do integrante.
 
-O [repositório é público](https://github.com/oveloso/tech_-challenge_pos_fiap). A `main` está protegida: mudanças por PR, checks `backend` e `compose-smoke` obrigatórios, regras aplicadas também a administradores e bloqueio de force push e exclusão. Como o grupo possui um integrante, não há aprovação adicional obrigatória. O histórico da implementação e seus checks estão no [PR #1](https://github.com/oveloso/tech_-challenge_pos_fiap/pull/1).
+O [repositório é público](https://github.com/oveloso/tech-challenge-oficina). A `main` está protegida: mudanças por PR, checks `backend` e `compose-smoke` obrigatórios, regras aplicadas também a administradores e bloqueio de force push e exclusão. Como o grupo possui um integrante, não há aprovação adicional obrigatória. O histórico da implementação e seus checks estão no [PR #1](https://github.com/oveloso/tech-challenge-oficina/pull/1).
 
 O PDF de entrega reúne identificação, links e o commit completo da versão avaliada; o link público do YouTube será adicionado após a gravação. O escopo técnico é uma API executada localmente por HTTP em loopback, demonstrada pelo Swagger; não inclui implantação pública. HTTPS seria necessário para uma futura exposição em rede.

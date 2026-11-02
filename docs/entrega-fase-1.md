@@ -39,7 +39,7 @@ Conforme orientação do professor, a documentação reúne Event Storming, ling
 
 Os [testes](evidencias/testes.txt) de integração usam PostgreSQL real e cobrem autenticação, cadastros, fluxo completo de OS, snapshots, revisão e recusa de orçamento com motivo, isolamento e rotação de tokens, estoque insuficiente, concorrência e rollback. O seed de demonstração também é testado em um banco temporário.
 
-Os jobs `backend` e `compose-smoke` passaram na [execução 41526702477 do GitHub Actions](https://github.com/oveloso/tech_-challenge_pos_fiap/actions/runs/41526702477). A execução Linux inclui testes com detector de corridas. A cobertura global foi **88,4%** na medição de 02/11/2026, incluindo os pontos de entrada e persistência com `-coverpkg=./...`; o domínio alcançou **99,0%**. Os comandos estão no [registro de verificação](evidencias/verificacao.md).
+Os jobs `backend` e `compose-smoke` passaram na [execução 41526702477 do GitHub Actions](https://github.com/oveloso/tech-challenge-oficina/actions/runs/41526702477). A execução Linux inclui testes com detector de corridas. A cobertura global foi **88,4%** na medição de 02/11/2026, incluindo os pontos de entrada e persistência com `-coverpkg=./...`; o domínio alcançou **99,0%**. Os comandos estão no [registro de verificação](evidencias/verificacao.md).
 
 O [govulncheck](evidencias/govulncheck.txt) registrou zero vulnerabilidades em código alcançável e zero em pacotes importados, com um achado em módulo requerido sem chamada identificada. Isso não equivale a ausência total de achados em dependências. Conforme orientação do professor, o relatório não precisa estar sem achados; deve apresentar o resultado e sua interpretação.
 
@@ -49,7 +49,7 @@ Swagger precisa de internet para carregar CSS e JavaScript da CDN. A especifica�
 
 ## Repositório e publicação
 
-O [repositório é público](https://github.com/oveloso/tech_-challenge_pos_fiap). A `main` exige PR e os checks `backend` e `compose-smoke`, aplica as regras aos administradores e bloqueia force push e exclusão. O grupo possui um integrante, por isso a quantidade de aprovações adicionais exigidas é zero. O [PR #1](https://github.com/oveloso/tech_-challenge_pos_fiap/pull/1) registra a implementação, as alterações e os checks de cada revisão.
+O [repositório é público](https://github.com/oveloso/tech-challenge-oficina). A `main` exige PR e os checks `backend` e `compose-smoke`, aplica as regras aos administradores e bloqueia force push e exclusão. O grupo possui um integrante, por isso a quantidade de aprovações adicionais exigidas é zero. O [PR #1](https://github.com/oveloso/tech-challenge-oficina/pull/1) registra a implementação, as alterações e os checks de cada revisão.
 
 O [vídeo](../entrega/video/README.md) é gravado com a narração do integrante e mostra o Event Storming no Miro e a operação real do Swagger com os dados de demonstração do seed; o link público do YouTube será adicionado após a gravação. O desenvolvimento teve apoio de IA da OpenAI/Codex (GPT-6) e da Anthropic (Claude), sob responsabilidade acadêmica do integrante.
 
