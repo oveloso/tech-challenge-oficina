@@ -2,7 +2,7 @@
 
 Referência: enunciado `Fase 1 - Tech Challenge.pdf` e orientações complementares do professor. O escopo é uma API Go com Swagger, executada localmente por HTTP em loopback; não inclui frontend próprio nem implantação pública.
 
-Identificação: **Grupo 1 — Lucas Velôso — RM 377934**, curso SOAT, fase 1. Discord: **Não utiliza Discord**.
+Identificação: **Grupo 1 — Lucas Velôso — RM 377934**, curso SOAT, fase 1. Discord: **lucasveloso**.
 
 | Requisito | Página | Evidência | Situação |
 |---|---|---|---|
@@ -20,21 +20,20 @@ Identificação: **Grupo 1 — Lucas Velôso — RM 377934**, curso SOAT, fase 1
 | Testes e cobertura mínima | 4–5, 11 | Relatórios reproduzíveis | Linux/CI: 85,8% global e 99,0% no domínio |
 | Análise de vulnerabilidades | 5, 7 | Relatório com interpretação dos achados | Relatório disponível; ressalva abaixo |
 | README completo | 5–6 | Execução, testes, autenticação, arquitetura e links | Documentado, com links para o pacote de entrega |
-| Event Storming, C4 até o nível 3 e linguagem ubíqua | 8–9 e orientação complementar | Diagramas, glossário e fontes | PDFs, PNGs, Markdown e fonte Excalidraw disponíveis |
+| Event Storming, C4 até o nível 3 e linguagem ubíqua | 8–9 e orientação complementar | Diagramas, glossário e fontes | Board no Miro, PDFs e Markdown disponíveis |
 | Repositório público; main protegida; PRs | 5–6 | GitHub e checks obrigatórios | Repositório público, proteção configurada e histórico no PR #1 |
 | Branch e hash da entrega | 6 | Identificação da versão no PDF | Tag fase-1-v1; branch e commit completo no PDF |
-| Vídeo de até 15 minutos | 6–7 e orientação complementar | Demonstração acessível e identificação | Vídeo final de 11min06,85s verificado; arquivo na release |
-| PDF único e identificação do grupo | 4–5 e orientação complementar | Grupo, nomes, RMs, tecnologias e links | Arquivo entrega-fase-1-grupo-1.pdf na release; Discord informado como não utilizado |
+| Vídeo de até 15 minutos | 6–7 e orientação complementar | Demonstração acessível e identificação | Gravação com narração do integrante; link público do YouTube a adicionar |
+| PDF único e identificação do grupo | 4–5 e orientação complementar | Grupo, nomes, RMs, tecnologias e links | PDF de entrega com Discord lucasveloso |
 
 ## DDD e arquitetura
 
 Conforme orientação do professor, a documentação reúne Event Storming, linguagem ubíqua e C4 nos níveis 1, 2 e 3. O nível 3 detalha um cenário: início do primeiro serviço com baixa de estoque. O modelo é uma construção conceitual do projeto, sem alegação de workshop com especialistas.
 
-- [C4 em PDF](ddd/exports/c4.pdf) e [Event Storming em PDF](ddd/exports/event-storming.pdf).
+- [C4 em PDF](ddd/diagramas.pdf).
 - [Linguagem ubíqua](ddd/linguagem-ubiqua.md) e [modelo de domínio](ddd/dominio.md).
 - [Event Storming no Miro](https://miro.com/app/board/uXjVETuWRiI=/).
-- [Fonte editável no Excalidraw](ddd/exports/oficina-ddd.excalidraw) e [imagens e fontes textuais](ddd/c4.md).
-- Quadro compartilhado do Excalidraw: [abrir no Excalidraw](https://excalidraw.com/#json=y-XhNVpZNgjkyZGcGTIug,NSCIC96zvDJ97e1Kz-Tjig).
+- [Imagens e fontes Mermaid do C4](ddd/c4.md).
 
 ## Verificação técnica
 
@@ -52,12 +51,6 @@ Swagger precisa de internet para carregar CSS e JavaScript da CDN. A especifica�
 
 O [repositório é público](https://github.com/oveloso/tech_-challenge_pos_fiap). A `main` exige PR e os checks `backend` e `compose-smoke`, aplica as regras aos administradores e bloqueia force push e exclusão. O grupo possui um integrante, por isso a quantidade de aprovações adicionais exigidas é zero. O [PR #1](https://github.com/oveloso/tech_-challenge_pos_fiap/pull/1) registra a implementação, as alterações e os checks de cada revisão.
 
-A [release fase-1-v1](https://github.com/oveloso/tech_-challenge_pos_fiap/releases/tag/fase-1-v1) reúne os arquivos de apresentação:
-
-- `entrega-fase-1-grupo-1.pdf`: identificação, tecnologias, branch/hash, declaração de apoio de IA e links de avaliação.
-- `tech-challenge-fase-1-grupo-1.mp4`: vídeo final de **11min06,85s**, com 27 capítulos.
-- `tech-challenge-fase-1-grupo-1.srt`: legendas em português, com 201 entradas.
-
-O [vídeo final](../entrega/video/README.md) mostra operação real do Swagger e acompanha a OS nº 5 até a entrega, com orçamento de R$ 338 e saldos de peças 8→6 e insumo 5→4. A edição reduz esperas e oculta credenciais; a narração é sintética em português. O desenvolvimento teve apoio de IA da OpenAI/Codex (GPT-6), sob responsabilidade acadêmica do integrante.
+O [vídeo](../entrega/video/README.md) é gravado com a narração do integrante e mostra o Event Storming no Miro e a operação real do Swagger com os dados de demonstração do seed; o link público do YouTube será adicionado após a gravação. O desenvolvimento teve apoio de IA da OpenAI/Codex (GPT-6) e da Anthropic (Claude), sob responsabilidade acadêmica do integrante.
 
 O envio do PDF na plataforma acadêmica é uma etapa separada da publicação dos materiais. O repositório e os arquivos devem continuar acessíveis durante a correção e a revisão de notas.
