@@ -16,7 +16,7 @@ Identificação: **Grupo 1 — Lucas Velôso — RM 377934**, curso SOAT, fase 1
 | JWT administrativo | 4, 11 | Autenticação e autorização | Implementado e testado |
 | Monólito em camadas e justificativa do banco | 4, 10 | Código, arquitetura e decisões | JSONB, restrições relacionais e transações documentados |
 | REST e OpenAPI/Swagger | 4–6, 10 | Contrato e documentação local | 40 operações servidas pelo backend |
-| Dockerfile e Compose | 4 | Build e execução reproduzíveis | Docker local e CI aprovados; seed, saúde e persistência verificados |
+| Dockerfile e Compose | 4 | Build e execução reproduzíveis | Job compose-smoke da CI: build, seed, saúde e Swagger |
 | Testes e cobertura mínima | 4–5, 11 | Relatórios reproduzíveis | Linux: 88,4% global e 99,0% no domínio |
 | Análise de vulnerabilidades | 5, 7 | Relatório com interpretação dos achados | Relatório disponível; ressalva abaixo |
 | README completo | 5–6 | Execução, testes, autenticação, arquitetura e links | Documentado, com links para o pacote de entrega |
@@ -37,9 +37,9 @@ Conforme orientação do professor, a documentação reúne Event Storming, ling
 
 ## Verificação técnica
 
-Os [testes de integração](evidencias/integracao.txt) cobrem autenticação, cadastros, fluxo completo de OS, snapshots, revisão de orçamento, isolamento e rotação de tokens, estoque insuficiente, concorrência e rollback. A [validação Docker](evidencias/docker.txt) executou build, seed, saúde, Swagger/OpenAPI e um fluxo de 32 requisições com 47 verificações aprovadas. Após recriar os contêineres sem excluir o volume, as oito verificações de persistência também passaram.
+Os [testes](evidencias/testes.txt) de integração usam PostgreSQL real e cobrem autenticação, cadastros, fluxo completo de OS, snapshots, revisão e recusa de orçamento com motivo, isolamento e rotação de tokens, estoque insuficiente, concorrência e rollback. O seed de demonstração também é testado em um banco temporário.
 
-Os jobs `backend` e `compose-smoke` passaram na [execução 40883124842 do GitHub Actions](https://github.com/oveloso/tech_-challenge_pos_fiap/actions/runs/40883124842). A execução Linux inclui testes com detector de corridas. A cobertura global foi **88,4%** na medição de 02/11/2026, incluindo os pontos de entrada e persistência com `-coverpkg=./...`; o domínio alcançou **99,0%**. A medição histórica no Windows, em 28/10/2026, permanece registrada em **85,6%** global. São execuções distintas, detalhadas no [registro de verificação](evidencias/verificacao.md).
+Os jobs `backend` e `compose-smoke` passaram na [execução 41526702477 do GitHub Actions](https://github.com/oveloso/tech_-challenge_pos_fiap/actions/runs/41526702477). A execução Linux inclui testes com detector de corridas. A cobertura global foi **88,4%** na medição de 02/11/2026, incluindo os pontos de entrada e persistência com `-coverpkg=./...`; o domínio alcançou **99,0%**. Os comandos estão no [registro de verificação](evidencias/verificacao.md).
 
 O [govulncheck](evidencias/govulncheck.txt) registrou zero vulnerabilidades em código alcançável e zero em pacotes importados, com um achado em módulo requerido sem chamada identificada. Isso não equivale a ausência total de achados em dependências. Conforme orientação do professor, o relatório não precisa estar sem achados; deve apresentar o resultado e sua interpretação.
 
