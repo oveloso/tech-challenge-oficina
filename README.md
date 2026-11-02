@@ -156,6 +156,8 @@ docker compose exec db createdb -U oficina -O oficina oficina_test
 ./scripts/run.ps1 -Action test
 ```
 
+Sem Go instalado, `./scripts/test-docker.ps1` executa a mesma suíte em contêineres descartáveis (Go 1.27.3 e PostgreSQL 18) e mostra a cobertura global e a do domínio.
+
 Sem `TEST_DATABASE_URL`, a suíte integrada informa `SKIP`; executar somente `go test ./...` não comprova integração com banco. Há também uma modalidade contra API externa, configurada por `API_BASE_URL`, `TEST_ADMIN_USERNAME` e `TEST_ADMIN_PASSWORD`, para `go test -count=1 -v ./tests -run '^TestAPIIntegration$'` dentro de `backend`.
 
 Outras verificações, dentro de `backend`:
@@ -169,7 +171,7 @@ go run golang.org/x/vuln/cmd/govulncheck@v1.9.0 ./...
 go run github.com/securego/gosec/v2/cmd/gosec@v2.30.0 ./...
 ```
 
-A medição de 29/10/2026 em Linux/Docker e na CI registrou **85,8% de cobertura global** e **99,0% no domínio**, com PostgreSQL real. O resultado histórico de 28/10/2026 no Windows foi 85,6% global e permanece preservado. Formatação, `go vet`, build e testes passaram. O contrato foi validado com 40 operações, 26 caminhos e 380 referências; Swagger respondeu HTTP 200 e foi conferido no navegador. Os comandos, resultados e limites estão no [registro de verificação](docs/evidencias/verificacao.md).
+A medição de 02/11/2026 em Linux/Docker, com detector de corridas, registrou **88,4% de cobertura global** e **99,0% no domínio**, com PostgreSQL real. O resultado histórico de 28/10/2026 no Windows foi 85,6% global e permanece preservado. Formatação, `go vet`, build e testes passaram. O contrato foi validado com 40 operações, 26 caminhos e 380 referências; Swagger respondeu HTTP 200 e foi conferido no navegador. Os comandos, resultados e limites estão no [registro de verificação](docs/evidencias/verificacao.md).
 
 Evidências: [cobertura](docs/evidencias/cobertura.txt), [fluxo integrado](docs/evidencias/integracao.txt), [entradas inválidas e limites](docs/evidencias/integracao-entradas-hostis.txt), [testes](docs/evidencias/testes.txt), [vulnerabilidades em dependências](docs/evidencias/govulncheck.txt) e [análise de segurança do código](docs/evidencias/gosec.txt).
 
