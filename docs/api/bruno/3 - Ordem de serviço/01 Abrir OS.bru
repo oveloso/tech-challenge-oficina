@@ -20,7 +20,10 @@ body:json {
     "vehicleId": "{{vehicleId}}",
     "problemDescription": "Ruído ao frear",
     "serviceIds": ["{{serviceId}}"],
-    "parts": [{ "inventoryItemId": "{{partId}}", "quantity": 2 }]
+    "parts": [
+      { "inventoryItemId": "{{partId}}", "quantity": 2 },
+      { "inventoryItemId": "{{supplyId}}", "quantity": 1 }
+    ]
   }
 }
 
