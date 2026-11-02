@@ -24,4 +24,8 @@ $settings = [ordered]@{
 }
 $content = ($settings.GetEnumerator() | ForEach-Object { "$($_.Key)=$($_.Value)" }) -join "`n"
 [System.IO.File]::WriteAllText($envFile, $content + "`n")
+$brunoEnv = Join-Path $projectRoot 'docs/api/bruno/.env'
+if (-not (Test-Path -LiteralPath $brunoEnv)) {
+    [System.IO.File]::WriteAllText($brunoEnv, "ADMIN_USERNAME=$($settings.ADMIN_USERNAME)`nADMIN_PASSWORD=$($settings.ADMIN_PASSWORD)`n")
+}
 Write-Output 'Arquivo .env criado. Consulte ADMIN_USERNAME e ADMIN_PASSWORD nele para autenticar na API.'
