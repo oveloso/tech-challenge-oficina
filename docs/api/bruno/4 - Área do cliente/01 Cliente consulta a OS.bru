@@ -1,0 +1,21 @@
+meta {
+  name: Cliente consulta a OS
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/customer/service-order
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{customerToken}}
+}
+
+tests {
+  test("status 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+}

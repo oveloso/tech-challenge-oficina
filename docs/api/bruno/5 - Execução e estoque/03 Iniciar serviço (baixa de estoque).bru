@@ -1,0 +1,31 @@
+meta {
+  name: Iniciar serviço (baixa de estoque)
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/admin/service-orders/{{orderId}}/services/{{serviceLineId}}/start
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+body:json {
+  {
+    "expectedVersion": {{version}}
+  }
+}
+
+script:post-response {
+  bru.setVar("version", res.getBody().version);
+}
+
+tests {
+  test("status 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+}

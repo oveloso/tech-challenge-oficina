@@ -109,6 +109,8 @@ O token do cliente é aleatório, tem 256 bits e só é retornado na emissão; o
 
 ## Operações e roteiro de demonstração
 
+Além do Swagger, a pasta [docs/api/bruno](docs/api/bruno) traz uma collection do [Bruno](https://www.usebruno.com/) com o fluxo de demonstração em ordem: login, cadastro de cliente e veículo, abertura da OS, orçamento, token do cliente, recusa com motivo, aprovação, execução com baixa de estoque, entrega, erros esperados e métricas. Cada requisição guarda o token, os IDs e o `expectedVersion` para a próxima. Abra a pasta no Bruno, escolha o ambiente `local` e informe `adminPassword` (o `ADMIN_PASSWORD` do `.env`). Pela linha de comando, dentro da pasta: `npx @usebruno/cli@4.2.1 run -r --env local --env-var adminPassword=<senha>`.
+
 Todos os caminhos abaixo usam o prefixo `/api/v1`. Os schemas, exemplos, filtros e respostas estão no [contrato OpenAPI](docs/api/openapi.yaml).
 
 | Grupo | Operações | Quantidade |

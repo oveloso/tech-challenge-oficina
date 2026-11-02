@@ -1,0 +1,26 @@
+meta {
+  name: Tempo médio por serviço
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/admin/metrics/service-execution?from=2026-10-01T00:00:00Z&to=2026-12-31T00:00:00Z
+  body: none
+  auth: bearer
+}
+
+params:query {
+  from: 2026-10-01T00:00:00Z
+  to: 2026-12-31T00:00:00Z
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+tests {
+  test("status 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+}

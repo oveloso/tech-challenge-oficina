@@ -1,0 +1,21 @@
+meta {
+  name: Saldo e movimentos da pastilha
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/admin/inventory-items/{{partId}}/movements
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+tests {
+  test("status 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+}

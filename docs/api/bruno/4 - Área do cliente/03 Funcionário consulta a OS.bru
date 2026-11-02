@@ -1,0 +1,25 @@
+meta {
+  name: Funcionário consulta a OS
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/admin/service-orders/{{orderId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+script:post-response {
+  bru.setVar("version", res.getBody().version);
+}
+
+tests {
+  test("status 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+}

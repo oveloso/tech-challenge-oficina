@@ -1,0 +1,32 @@
+meta {
+  name: Gerar token do cliente
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/admin/service-orders/{{orderId}}/customer-access
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+body:json {
+  {
+    "expectedVersion": {{version}}
+  }
+}
+
+script:post-response {
+  bru.setVar("customerToken", res.getBody().token);
+  bru.setVar("version", res.getBody().workOrderVersion);
+}
+
+tests {
+  test("status 201", function () {
+    expect(res.getStatus()).to.equal(201);
+  });
+}

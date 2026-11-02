@@ -1,0 +1,36 @@
+meta {
+  name: Abrir OS
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/admin/service-orders
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+body:json {
+  {
+    "customerId": "{{customerId}}",
+    "vehicleId": "{{vehicleId}}",
+    "problemDescription": "Ruído ao frear",
+    "serviceIds": ["{{serviceId}}"],
+    "parts": [{ "inventoryItemId": "{{partId}}", "quantity": 2 }]
+  }
+}
+
+script:post-response {
+  bru.setVar("orderId", res.getBody().id);
+  bru.setVar("version", res.getBody().version);
+}
+
+tests {
+  test("status 201", function () {
+    expect(res.getStatus()).to.equal(201);
+  });
+}
