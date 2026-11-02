@@ -29,7 +29,7 @@ API e banco são publicados apenas em `127.0.0.1`, nas portas `API_PORT` e `DB_P
 docker compose down
 ```
 
-**Validação concluída:** o ambiente foi construído e executado com Docker Desktop/Engine, incluindo PostgreSQL, seed, saúde, Swagger/OpenAPI e fluxo completo da OS. A persistência foi confirmada após recriar os contêineres sem apagar o volume. A [evidência Docker](docs/evidencias/docker.txt) registra a execução isolada nas portas 18080 e 15432; o [job compose-smoke no GitHub Actions](https://github.com/oveloso/tech_-challenge_pos_fiap/actions/runs/40883124842) também passou.
+**Validação:** o job [compose-smoke da CI](https://github.com/oveloso/tech_-challenge_pos_fiap/actions/runs/41526702477) constrói e sobe o ambiente Docker a cada PR, confere seed, saúde, Swagger e OpenAPI e autentica o administrador.
 
 ### Windows com Go e PostgreSQL
 
@@ -171,11 +171,11 @@ go run golang.org/x/vuln/cmd/govulncheck@v1.9.0 ./...
 go run github.com/securego/gosec/v2/cmd/gosec@v2.30.0 ./...
 ```
 
-A medição de 02/11/2026 em Linux/Docker, com detector de corridas, registrou **88,4% de cobertura global** e **99,0% no domínio**, com PostgreSQL real. O resultado histórico de 28/10/2026 no Windows foi 85,6% global e permanece preservado. Formatação, `go vet`, build e testes passaram. O contrato foi validado com 40 operações, 26 caminhos e 380 referências; Swagger respondeu HTTP 200 e foi conferido no navegador. Os comandos, resultados e limites estão no [registro de verificação](docs/evidencias/verificacao.md).
+A medição de 02/11/2026 em Linux/Docker, com detector de corridas, registrou **88,4% de cobertura global** e **99,0% no domínio**, com PostgreSQL real. Formatação, `go vet`, build e testes passaram. O contrato tem 40 operações e é servido pelo Swagger. Os comandos, resultados e limites estão no [registro de verificação](docs/evidencias/verificacao.md).
 
-Evidências: [cobertura](docs/evidencias/cobertura.txt), [fluxo integrado](docs/evidencias/integracao.txt), [entradas inválidas e limites](docs/evidencias/integracao-entradas-hostis.txt), [testes](docs/evidencias/testes.txt), [vulnerabilidades em dependências](docs/evidencias/govulncheck.txt) e [análise de segurança do código](docs/evidencias/gosec.txt).
+Evidências: [testes](docs/evidencias/testes.txt), [cobertura](docs/evidencias/cobertura.txt), [vulnerabilidades em dependências](docs/evidencias/govulncheck.txt) e [análise de segurança do código](docs/evidencias/gosec.txt).
 
-A [CI](.github/workflows/ci.yml) configura PostgreSQL 18 e executa formatação, `go vet`, build, testes com detector de corridas, cobertura, `govulncheck` e `gosec`; o job `compose-smoke` constrói e sobe o ambiente Docker. Os jobs `backend` e `compose-smoke` passaram na [execução 40883124842](https://github.com/oveloso/tech_-challenge_pos_fiap/actions/runs/40883124842). Os resultados de segurança e demais limites são detalhados em [Requisitos e evidências](docs/entrega-fase-1.md).
+A [CI](.github/workflows/ci.yml) configura PostgreSQL 18 e executa formatação, `go vet`, build, testes com detector de corridas, cobertura, `govulncheck` e `gosec`; o job `compose-smoke` constrói e sobe o ambiente Docker. Os jobs `backend` e `compose-smoke` passaram na [execução 41526702477](https://github.com/oveloso/tech_-challenge_pos_fiap/actions/runs/41526702477). Os resultados de segurança e demais limites são detalhados em [Requisitos e evidências](docs/entrega-fase-1.md).
 
 ## Organização e decisões
 
