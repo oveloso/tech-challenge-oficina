@@ -1,6 +1,6 @@
 # Vídeo da fase 1
 
-**Grupo 1 — Lucas Velôso — RM 377934.** Discord: lucasveloso.
+**Grupo 1 — Lucas Velôso — RM 377934.** Discord: Velos0.
 
 Link público do YouTube: será adicionado após a gravação.
 

@@ -2,7 +2,7 @@
 
 Referência: enunciado `Fase 1 - Tech Challenge.pdf` e orientações complementares do professor. O escopo é uma API Go com Swagger, executada localmente por HTTP em loopback; não inclui frontend próprio nem implantação pública.
 
-Identificação: **Grupo 1 — Lucas Velôso — RM 377934**, curso SOAT, fase 1. Discord: **lucasveloso**.
+Identificação: **Grupo 1 — Lucas Velôso — RM 377934**, curso SOAT, fase 1. Discord: **Velos0**.
 
 | Requisito | Página | Evidência | Situação |
 |---|---|---|---|
@@ -24,7 +24,7 @@ Identificação: **Grupo 1 — Lucas Velôso — RM 377934**, curso SOAT, fase 1
 | Repositório público; main protegida; PRs | 5–6 | GitHub e checks obrigatórios | Repositório público, proteção configurada e histórico no PR #1 |
 | Branch e hash da entrega | 6 | Identificação da versão no PDF | Tag fase-1-v1; branch e commit completo no PDF |
 | Vídeo de até 15 minutos | 6–7 e orientação complementar | Demonstração acessível e identificação | Gravação com narração do integrante; link público do YouTube a adicionar |
-| PDF único e identificação do grupo | 4–5 e orientação complementar | Grupo, nomes, RMs, tecnologias e links | PDF de entrega com Discord lucasveloso |
+| PDF único e identificação do grupo | 4–5 e orientação complementar | Grupo, nomes, RMs, tecnologias e links | PDF de entrega com Discord Velos0 |
 
 ## DDD e arquitetura
 
