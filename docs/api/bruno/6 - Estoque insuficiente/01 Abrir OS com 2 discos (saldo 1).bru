@@ -1,0 +1,36 @@
+meta {
+  name: Abrir OS com 2 discos (saldo 1)
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/admin/service-orders
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+body:json {
+  {
+    "customerId": "{{customerId}}",
+    "vehicleId": "{{vehicleId}}",
+    "problemDescription": "Disco de freio empenado",
+    "serviceIds": ["{{serviceId}}"],
+    "parts": [{ "inventoryItemId": "{{discId}}", "quantity": 2 }]
+  }
+}
+
+script:post-response {
+  bru.setVar("orderId", res.getBody().id);
+  bru.setVar("version", res.getBody().version);
+}
+
+tests {
+  test("status 201", function () {
+    expect(res.getStatus()).to.equal(201);
+  });
+}

@@ -1,0 +1,28 @@
+meta {
+  name: Cliente aprova
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/customer/service-order/quote-decision
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{customerToken}}
+}
+
+body:json {
+  {
+    "quoteId": "{{quoteId}}",
+    "decision": "APPROVED"
+  }
+}
+
+tests {
+  test("status 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+}

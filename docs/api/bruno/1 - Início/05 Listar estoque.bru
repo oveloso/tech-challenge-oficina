@@ -18,6 +18,10 @@ script:post-response {
   const items = res.getBody().data;
   bru.setVar("partId", items.find((x) => x.sku === "DEMO-PASTILHA").id);
   bru.setVar("supplyId", items.find((x) => x.sku === "DEMO-OLEO").id);
+<<<<<<< Updated upstream
+=======
+  bru.setVar("discId", items.find((x) => x.sku === "DEMO-DISCO").id);
+>>>>>>> Stashed changes
 }
 
 tests {
