@@ -216,11 +216,11 @@ Cadastros e o agregado de OS usam JSONB, com colunas geradas, chaves estrangeira
 - [C4 até o nível 3 e exportações](docs/ddd/c4.md)
 - [Contrato OpenAPI](docs/api/openapi.yaml)
 - [Requisitos e evidências da entrega](docs/entrega-fase-1.md)
-- [Vídeo da apresentação](entrega/video/README.md)
+- [Vídeo da apresentação no YouTube](https://youtu.be/uCkX__6-xl8) ([detalhes](entrega/video/README.md))
 - [Diagramas C4 em PDF](docs/ddd/diagramas.pdf)
 
 O modelo DDD é uma construção conceitual do projeto. A entrega identifica **Grupo 1 — Lucas Velôso — RM 377934**; Discord: **Velos0**. O desenvolvimento teve apoio de IA da OpenAI/Codex (GPT-6) e da Anthropic (Claude), com responsabilidade acadêmica do integrante.
 
 O [repositório é público](https://github.com/oveloso/tech-challenge-oficina). A `main` está protegida: mudanças por PR, checks `backend` e `compose-smoke` obrigatórios, regras aplicadas também a administradores e bloqueio de force push e exclusão. Como o grupo possui um integrante, não há aprovação adicional obrigatória. O histórico da implementação e seus checks estão no [PR #1](https://github.com/oveloso/tech-challenge-oficina/pull/1).
 
-O PDF de entrega reúne identificação, links e o commit completo da versão avaliada; o link público do YouTube será adicionado após a gravação. O escopo técnico é uma API executada localmente por HTTP em loopback, demonstrada pelo Swagger; não inclui implantação pública. HTTPS seria necessário para uma futura exposição em rede.
+O PDF de entrega reúne identificação, links e o commit completo da versão avaliada; o vídeo está publicado no [YouTube](https://youtu.be/uCkX__6-xl8). O escopo técnico é uma API executada localmente por HTTP em loopback, demonstrada pelo Swagger; não inclui implantação pública. HTTPS seria necessário para uma futura exposição em rede.

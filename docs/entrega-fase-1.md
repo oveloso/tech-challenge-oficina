@@ -23,7 +23,7 @@ Identificação: **Grupo 1 — Lucas Velôso — RM 377934**, curso SOAT, fase 1
 | Event Storming, C4 até o nível 3 e linguagem ubíqua | 8–9 e orientação complementar | Diagramas, glossário e fontes | Board no Miro, PDFs e Markdown disponíveis |
 | Repositório público; main protegida; PRs | 5–6 | GitHub e checks obrigatórios | Repositório público, proteção configurada e histórico no PR #1 |
 | Branch e hash da entrega | 6 | Identificação da versão no PDF | Tag fase-1-v1; branch e commit completo no PDF |
-| Vídeo de até 15 minutos | 6–7 e orientação complementar | Demonstração acessível e identificação | Gravação com narração do integrante; link público do YouTube a adicionar |
+| Vídeo de até 15 minutos | 6–7 e orientação complementar | Demonstração acessível e identificação | [Vídeo no YouTube](https://youtu.be/uCkX__6-xl8), 12min50s, narrado pelo integrante |
 | PDF único e identificação do grupo | 4–5 e orientação complementar | Grupo, nomes, RMs, tecnologias e links | PDF de entrega com Discord Velos0 |
 
 ## DDD e arquitetura
@@ -51,6 +51,6 @@ Swagger precisa de internet para carregar CSS e JavaScript da CDN. A especifica�
 
 O [repositório é público](https://github.com/oveloso/tech-challenge-oficina). A `main` exige PR e os checks `backend` e `compose-smoke`, aplica as regras aos administradores e bloqueia force push e exclusão. O grupo possui um integrante, por isso a quantidade de aprovações adicionais exigidas é zero. O [PR #1](https://github.com/oveloso/tech-challenge-oficina/pull/1) registra a implementação, as alterações e os checks de cada revisão.
 
-O [vídeo](../entrega/video/README.md) é gravado com a narração do integrante e mostra o Event Storming no Miro e a operação real do Swagger com os dados de demonstração do seed; o link público do YouTube será adicionado após a gravação. O desenvolvimento teve apoio de IA da OpenAI/Codex (GPT-6) e da Anthropic (Claude), sob responsabilidade acadêmica do integrante.
+O [vídeo](../entrega/video/README.md) é gravado com a narração do integrante e mostra os slides de arquitetura, o Event Storming no Miro, os testes, o Swagger e a operação real da API pelo Bruno; ele está publicado no [YouTube](https://youtu.be/uCkX__6-xl8). O desenvolvimento teve apoio de IA da OpenAI/Codex (GPT-6) e da Anthropic (Claude), sob responsabilidade acadêmica do integrante.
 
 O envio do PDF na plataforma acadêmica é uma etapa separada da publicação dos materiais. O repositório e os arquivos devem continuar acessíveis durante a correção e a revisão de notas.

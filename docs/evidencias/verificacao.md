@@ -30,6 +30,6 @@ O Swagger é servido pela própria API em `/docs` e carrega os assets da versão
 
 A documentação DDD reúne o [Event Storming no Miro](https://miro.com/app/board/uXjVETuWRiI=/?share_link_id=192620924232), o [C4 níveis 1, 2 e 3](../ddd/diagramas.pdf) e a [linguagem ubíqua](../ddd/linguagem-ubiqua.md). O nível 3 detalha o início do primeiro serviço com baixa transacional de estoque.
 
-A identificação é **Grupo 1 — Lucas Velôso — RM 377934**. Discord: **Velos0**. O [vídeo](../../entrega/video/README.md) é gravado com a narração do integrante; o link público do YouTube será adicionado após a gravação.
+A identificação é **Grupo 1 — Lucas Velôso — RM 377934**. Discord: **Velos0**. O [vídeo](../../entrega/video/README.md) é gravado com a narração do integrante; ele está publicado no [YouTube](https://youtu.be/uCkX__6-xl8).
 
 O repositório público e a proteção da `main` estão configurados: PR obrigatório, checks `backend`/`compose-smoke`, aplicação a administradores, sem force push nem exclusão. O PDF de entrega registra a branch e o commit completo da versão avaliada. O escopo verificado é a API local por HTTP, sem implantação pública.
