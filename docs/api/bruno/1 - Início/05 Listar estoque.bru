@@ -17,6 +17,8 @@ auth:bearer {
 script:post-response {
   const items = res.getBody().data;
   bru.setVar("partId", items.find((x) => x.sku === "DEMO-PASTILHA").id);
+  bru.setVar("supplyId", items.find((x) => x.sku === "DEMO-OLEO").id);
+  bru.setVar("discId", items.find((x) => x.sku === "DEMO-DISCO").id);
 }
 
 tests {

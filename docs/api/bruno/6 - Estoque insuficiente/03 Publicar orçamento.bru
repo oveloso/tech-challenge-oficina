@@ -1,0 +1,32 @@
+meta {
+  name: Publicar orçamento
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/admin/service-orders/{{orderId}}/quotes
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+body:json {
+  {
+    "expectedVersion": {{version}}
+  }
+}
+
+script:post-response {
+  bru.setVar("version", res.getBody().version);
+  bru.setVar("quoteId", res.getBody().currentQuote.id);
+}
+
+tests {
+  test("status 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+}

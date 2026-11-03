@@ -18,4 +18,7 @@ DEMO_DATA=true
 API_PORT=8080
 DB_PORT=5432
 EOF
+if [ ! -e docs/api/bruno/.env ]; then
+  grep '^ADMIN_' .env > docs/api/bruno/.env
+fi
 echo 'Arquivo .env criado. Consulte ADMIN_USERNAME e ADMIN_PASSWORD nele para autenticar na API.'

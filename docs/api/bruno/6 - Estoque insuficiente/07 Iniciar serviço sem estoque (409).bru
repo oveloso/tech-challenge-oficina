@@ -1,0 +1,27 @@
+meta {
+  name: Iniciar serviço sem estoque (409)
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/admin/service-orders/{{orderId}}/services/{{serviceLineId}}/start
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+body:json {
+  {
+    "expectedVersion": {{version}}
+  }
+}
+
+tests {
+  test("status 409", function () {
+    expect(res.getStatus()).to.equal(409);
+  });
+}

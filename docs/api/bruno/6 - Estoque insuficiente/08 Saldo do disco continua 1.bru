@@ -1,0 +1,21 @@
+meta {
+  name: Saldo do disco continua 1
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{baseUrl}}/admin/inventory-items/{{discId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+tests {
+  test("status 200", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+}
